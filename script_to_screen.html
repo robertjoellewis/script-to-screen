@@ -4,18 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Science of Why Content Works</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A080E'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='bold' fill='%23C9A84C' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
 <style>
 /* ──────────────────────────────────────────────────────────
-   VARIABLES & RESET
+   TYPE SCALE NOTE
+   The deck renders in a fixed 1280×720 design space and is
+   transform-scaled by Reveal to fill any screen (1.5× on a
+   1080p projector, 2× on 1440p). Every size below is in that
+   design space — so 1rem = 16px here = 24px at 1080p.
+   Never use vw/vh units: they measure the real viewport, not
+   the design space, and will blow up after scaling.
+   Floor for on-screen body copy: 1rem. Footnotes: 0.68rem.
 ────────────────────────────────────────────────────────── */
 :root {
   --gold:   #C9A84C;
   --cream:  #F5F0E8;
   --bg:     #0A080E;
-  --muted:  rgba(245,240,232,0.50);
-  --dim:    rgba(245,240,232,0.30);
+  --muted:  rgba(245,240,232,0.62);
+  --dim:    rgba(245,240,232,0.38);
   --red:    #C0392B;
   --blue:   #4A9EBF;
   --green:  #27AE60;
@@ -27,7 +35,8 @@
   --sans:   'Inter', sans-serif;
 }
 
-.reveal { font-family: var(--sans); color: var(--cream); background: var(--bg); }
+.reveal { font-family: var(--sans); color: var(--cream); background: var(--bg); font-size: 16px; }
+.reveal .slides { text-align: left; }
 .reveal .slides section { height: 100%; padding: 0; top: 0 !important; left: 0 !important; }
 .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-family: var(--serif); }
 .reveal p, .reveal li { margin: 0; }
@@ -57,7 +66,7 @@
 }
 .bg-overlay { position: absolute; inset: 0; z-index: 1; }
 .overlay-dark  { background: rgba(10,8,14,0.72); }
-.overlay-left  { background: linear-gradient(90deg,  rgba(10,8,14,0.94) 52%, rgba(10,8,14,0.20) 100%); }
+.overlay-left  { background: linear-gradient(90deg,  rgba(10,8,14,0.95) 60%, rgba(10,8,14,0.18) 100%); }
 .overlay-right { background: linear-gradient(270deg, rgba(10,8,14,0.94) 48%, rgba(10,8,14,0.15) 100%); }
 .overlay-vign  { background: radial-gradient(ellipse at center, transparent 25%, rgba(10,8,14,0.82) 100%); }
 .overlay-heavy { background: rgba(10,8,14,0.82); }
@@ -73,17 +82,21 @@
   100% { background-position: 0% 50%; }
 }
 
+/* border-box matters: flex-basis percentages here are of the 1280px
+   frame, so content-box sizing would add the 48px padding on top and
+   push a sibling column off the slide. */
 .text-panel {
   position: relative; z-index: 2;
   display: flex; flex-direction: column; justify-content: center;
-  padding: 52px 60px; flex: 0 0 54%;
+  padding: 44px 48px; flex: 0 0 54%;
+  box-sizing: border-box; min-width: 0;
 }
 
 .slide-content {
   position: relative; z-index: 2;
   width: 100%; height: 100%;
   display: flex; flex-direction: column; justify-content: center;
-  padding: 44px 72px; box-sizing: border-box;
+  padding: 36px 56px; box-sizing: border-box;
 }
 .slide-content.full { justify-content: flex-start; padding-top: 34px; }
 
@@ -92,44 +105,57 @@
 ────────────────────────────────────────────────────────── */
 h2 {
   font-family: var(--serif);
-  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
-  font-weight: 700; line-height: 1.18;
+  font-size: 2.5rem;
+  font-weight: 700; line-height: 1.16;
   color: var(--cream); margin: 0 0 8px;
 }
 
 .slide-label {
   font-family: var(--mono);
-  font-size: 0.63rem; letter-spacing: 0.18em;
+  font-size: 0.8rem; letter-spacing: 0.16em;
   color: var(--gold); text-transform: uppercase;
-  margin-bottom: 10px;
-  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
 }
 .slide-label::before {
   content: ''; display: inline-block;
-  width: 22px; height: 1px; background: var(--gold);
+  width: 26px; height: 2px; background: var(--gold);
 }
 
 .gold-line {
-  width: 44px; height: 2px; background: var(--gold);
-  margin: 10px 0 18px; border-radius: 1px;
+  width: 56px; height: 3px; background: var(--gold);
+  margin: 12px 0 20px; border-radius: 2px;
 }
-.gold-line.center { margin: 12px auto 20px; }
+.gold-line.center { margin: 14px auto 22px; }
 
 .text-gold   { color: var(--gold); }
 .text-red    { color: var(--red); }
 .text-blue   { color: var(--blue); }
 .text-muted  { color: var(--muted); }
 
-/* slide counter */
+/* Lead paragraph — the one block of prose a slide is allowed */
+.lead {
+  font-size: 1.15rem; color: var(--muted);
+  line-height: 1.6; margin-bottom: 18px;
+}
+
+/* footnote / source line */
+.source-note {
+  font-family: var(--mono); font-size: 0.75rem;
+  color: var(--dim); letter-spacing: 0.06em;
+}
+
+/* slide counter — bottom-centre so it clears Reveal's nav arrows,
+   which sit bottom-right */
 .slide-counter {
-  position: absolute; bottom: 18px; right: 26px;
-  font-family: var(--mono); font-size: 0.58rem;
-  color: rgba(245,240,232,0.22); letter-spacing: 0.12em; z-index: 10;
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 0.68rem;
+  color: rgba(245,240,232,0.26); letter-spacing: 0.12em; z-index: 10;
 }
 .conf-tag {
-  position: absolute; bottom: 18px; left: 26px;
-  font-family: var(--mono); font-size: 0.58rem;
-  color: rgba(245,240,232,0.22); letter-spacing: 0.10em; z-index: 10;
+  position: absolute; bottom: 16px; left: 24px;
+  font-family: var(--mono); font-size: 0.68rem;
+  color: rgba(245,240,232,0.26); letter-spacing: 0.10em; z-index: 10;
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -137,27 +163,26 @@ h2 {
 ────────────────────────────────────────────────────────── */
 .title-main {
   font-family: var(--serif);
-  font-size: clamp(2.6rem, 6vw, 5.2rem);
-  font-weight: 700; line-height: 1.1;
-  color: var(--cream); margin: 0 0 14px;
+  font-size: 4.3rem;
+  font-weight: 700; line-height: 1.08;
+  color: var(--cream); margin: 0 0 18px;
 }
 .title-sub {
   font-family: var(--sans);
-  font-size: clamp(0.88rem, 1.5vw, 1.1rem);
-  color: rgba(245,240,232,0.60);
-  font-weight: 300; line-height: 1.65;
-  margin: 0 0 28px !important; max-width: 100%;
+  font-size: 1.3rem;
+  color: rgba(245,240,232,0.72);
+  font-weight: 300; line-height: 1.55;
+  margin: 0 auto 30px !important; max-width: 760px;
   text-align: center;
-  width: 100%;
 }
 .title-speaker .name {
-  font-family: var(--serif); font-size: 1.05rem;
+  font-family: var(--serif); font-size: 1.5rem;
   color: var(--gold); letter-spacing: 0.02em; display: block;
 }
 .title-speaker .role {
-  font-family: var(--mono); font-size: 0.62rem;
-  color: rgba(245,240,232,0.45); letter-spacing: 0.1em; display: block;
-  margin-top: 3px;
+  font-family: var(--mono); font-size: 0.8rem;
+  color: rgba(245,240,232,0.55); letter-spacing: 0.08em; display: block;
+  margin-top: 5px;
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -170,80 +195,87 @@ h2 {
   text-align: center; position: relative;
 }
 .chapter-ghost {
-  font-family: var(--serif); font-size: 14rem; font-weight: 700;
+  font-family: var(--serif); font-size: 16rem; font-weight: 700;
   color: rgba(201,168,76,0.06); line-height: 1;
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%,-56%);
   pointer-events: none; user-select: none;
 }
 .chapter-label {
-  font-family: var(--mono); font-size: 0.65rem;
+  font-family: var(--mono); font-size: 0.8rem;
   letter-spacing: 0.2em; color: var(--gold);
-  margin-bottom: 10px; position: relative; z-index: 2;
+  margin-bottom: 12px; position: relative; z-index: 2;
 }
 .chapter-title {
   font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-size: 3.4rem;
   font-weight: 700; color: var(--cream);
-  position: relative; z-index: 2; margin: 0 0 14px;
+  position: relative; z-index: 2; margin: 0 0 16px;
 }
 .chapter-sub {
-  font-size: 0.95rem; color: var(--muted);
-  max-width: 460px; line-height: 1.6;
+  font-size: 1.15rem; color: var(--muted);
+  max-width: 560px; line-height: 1.55;
   position: relative; z-index: 2; text-align: center;
 }
 
 /* ──────────────────────────────────────────────────────────
    CARDS
 ────────────────────────────────────────────────────────── */
-.card-grid { display: grid; gap: 14px; margin-top: 18px; }
+.card-grid { display: grid; gap: 16px; margin-top: 18px; }
 .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
 .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 
 .card {
   background: rgba(245,240,232,0.05);
-  border: 1px solid rgba(245,240,232,0.11);
-  border-radius: 8px; padding: 14px 16px;
+  border: 1px solid rgba(245,240,232,0.12);
+  border-radius: 10px; padding: 18px 20px;
 }
 .card.gold   { border-color: rgba(201,168,76,0.45); background: rgba(201,168,76,0.07); }
 .card.red    { border-color: rgba(192,57,43,0.45);  background: rgba(192,57,43,0.07);  }
 .card.blue   { border-color: rgba(74,158,191,0.45); background: rgba(74,158,191,0.07); }
 .card.green  { border-color: rgba(39,174,96,0.45);  background: rgba(39,174,96,0.07);  }
 
-.card-icon  { font-size: 1.3rem; margin-bottom: 6px; }
-.card-title { font-size: 0.85rem; font-weight: 600; color: var(--cream); margin-bottom: 5px; }
-.card-body  { font-size: 0.76rem; color: var(--muted); line-height: 1.55; }
+.card-icon  { font-size: 1.6rem; margin-bottom: 8px; }
+.card-title { font-size: 1.2rem; font-weight: 600; color: var(--cream); margin-bottom: 8px; line-height: 1.3; }
+.card-body  { font-size: 1.05rem; color: var(--muted); line-height: 1.5; }
+.card-kicker {
+  font-family: var(--mono); font-size: 0.72rem;
+  letter-spacing: 0.14em; font-weight: 500;
+  margin-bottom: 7px;
+}
 
 /* ──────────────────────────────────────────────────────────
    PULL QUOTE & BOXES
 ────────────────────────────────────────────────────────── */
 .pull-quote {
-  border-left: 3px solid var(--gold);
-  padding: 12px 18px;
+  border-left: 4px solid var(--gold);
+  padding: 16px 22px;
   background: rgba(201,168,76,0.06);
-  border-radius: 0 8px 8px 0;
-  margin: 14px 0;
+  border-radius: 0 10px 10px 0;
+  margin: 16px 0;
 }
 .pull-quote p {
   font-family: var(--serif); font-style: italic;
-  font-size: 0.93rem; color: rgba(245,240,232,0.90);
-  line-height: 1.65; margin: 0;
+  font-size: 1.3rem; color: rgba(245,240,232,0.92);
+  line-height: 1.5; margin: 0;
 }
 .pull-quote .attrib {
-  font-family: var(--mono); font-size: 0.58rem;
+  font-family: var(--mono); font-size: 0.72rem;
   color: var(--gold); letter-spacing: 0.1em;
-  margin-top: 8px; display: block; font-style: normal;
+  margin-top: 10px; display: block; font-style: normal;
 }
 
 .insight-box {
   background: rgba(201,168,76,0.07);
-  border: 1px solid rgba(201,168,76,0.28);
-  border-radius: 8px; padding: 13px 16px; margin: 12px 0;
+  border: 1px solid rgba(201,168,76,0.30);
+  border-radius: 10px; padding: 17px 20px; margin: 14px 0;
+  font-size: 1.1rem; line-height: 1.55;
 }
 .warning-box {
   background: rgba(192,57,43,0.08);
-  border: 1px solid rgba(192,57,43,0.30);
-  border-radius: 8px; padding: 13px 16px; margin: 12px 0;
+  border: 1px solid rgba(192,57,43,0.32);
+  border-radius: 10px; padding: 17px 20px; margin: 14px 0;
+  font-size: 1.1rem; line-height: 1.55;
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -251,10 +283,10 @@ h2 {
 ────────────────────────────────────────────────────────── */
 .domain-grid-6 {
   display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 10px; margin-top: 14px;
+  gap: 14px; margin-top: 16px;
 }
 .domain-pill {
-  border-radius: 8px; padding: 11px 13px; border: 1px solid;
+  border-radius: 10px; padding: 16px 18px; border: 1px solid;
 }
 .dp-self       { border-color: rgba(74,158,191,0.5);  background: rgba(74,158,191,0.08);  }
 .dp-threats    { border-color: rgba(192,57,43,0.5);   background: rgba(192,57,43,0.08);   }
@@ -264,16 +296,16 @@ h2 {
 .dp-kin        { border-color: rgba(26,188,156,0.5);  background: rgba(26,188,156,0.08);  }
 
 .dp-label {
-  font-family: var(--mono); font-size: 0.56rem;
-  letter-spacing: 0.14em; font-weight: 700;
-  margin-bottom: 5px;
+  font-family: var(--mono); font-size: 0.84rem;
+  letter-spacing: 0.16em; font-weight: 700;
+  margin-bottom: 9px;
 }
 .dp-example {
-  font-size: 0.76rem; color: rgba(245,240,232,0.65);
-  line-height: 1.4; margin-bottom: 4px;
+  font-size: 1.08rem; color: rgba(245,240,232,0.82);
+  line-height: 1.4; margin-bottom: 9px;
 }
 .dp-effect {
-  font-size: 0.68rem; color: rgba(245,240,232,0.42);
+  font-size: 0.95rem; color: var(--dim);
   font-style: italic; line-height: 1.35;
 }
 
@@ -282,34 +314,42 @@ h2 {
 ────────────────────────────────────────────────────────── */
 .mchip {
   font-family: var(--sans);
-  font-size: 0.58rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  line-height: 1.3;
-  padding: 4px 6px;
-  border-radius: 4px;
+  line-height: 1.22;
+  padding: 5px 5px;
+  border-radius: 5px;
   background: rgba(245,240,232,0.05);
-  border: 1px solid rgba(245,240,232,0.10);
-  color: rgba(245,240,232,0.72);
+  border: 1px solid rgba(245,240,232,0.12);
+  color: rgba(245,240,232,0.82);
   text-align: center;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 34px;
 }
-.mc-self    { background:rgba(74,158,191,0.10);  border-color:rgba(74,158,191,0.30);  color:rgba(174,218,240,0.88); }
-.mc-threats { background:rgba(192,57,43,0.10);   border-color:rgba(192,57,43,0.30);   color:rgba(240,160,148,0.88); }
-.mc-coop    { background:rgba(39,174,96,0.10);   border-color:rgba(39,174,96,0.30);   color:rgba(150,220,170,0.88); }
-.mc-comp    { background:rgba(230,126,34,0.10);  border-color:rgba(230,126,34,0.30);  color:rgba(240,190,140,0.88); }
-.mc-mates   { background:rgba(155,89,182,0.10);  border-color:rgba(155,89,182,0.30);  color:rgba(210,175,235,0.88); }
-.mc-kin     { background:rgba(26,188,156,0.10);  border-color:rgba(26,188,156,0.30);  color:rgba(150,230,210,0.88); }
+.mc-self    { background:rgba(74,158,191,0.12);  border-color:rgba(74,158,191,0.34);  color:rgba(186,226,245,0.95); }
+.mc-threats { background:rgba(192,57,43,0.12);   border-color:rgba(192,57,43,0.34);   color:rgba(245,172,160,0.95); }
+.mc-coop    { background:rgba(39,174,96,0.12);   border-color:rgba(39,174,96,0.34);   color:rgba(162,228,182,0.95); }
+.mc-comp    { background:rgba(230,126,34,0.12);  border-color:rgba(230,126,34,0.34);  color:rgba(245,200,152,0.95); }
+.mc-mates   { background:rgba(155,89,182,0.12);  border-color:rgba(155,89,182,0.34);  color:rgba(218,186,240,0.95); }
+.mc-kin     { background:rgba(26,188,156,0.12);  border-color:rgba(26,188,156,0.34);  color:rgba(162,236,218,0.95); }
+
+.mech-section {
+  font-family: var(--mono); font-size: 0.72rem;
+  letter-spacing: 0.16em; color: var(--gold);
+  border-bottom: 1px solid rgba(201,168,76,0.32);
+  padding-bottom: 4px; margin-bottom: 7px;
+}
+.mech-grid {
+  display: grid; grid-template-columns: repeat(8,1fr); gap: 4px;
+}
+.mech-key {
+  display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em;
+}
 
 /* ──────────────────────────────────────────────────────────
    FEEDBACK LOOP ARCS
 ────────────────────────────────────────────────────────── */
-@keyframes drawArcR {
-  from { stroke-dashoffset: 700; }
-  to   { stroke-dashoffset: 0; }
-}
-@keyframes drawArcL {
-  from { stroke-dashoffset: 700; }
-  to   { stroke-dashoffset: 0; }
-}
 @keyframes pulseArcCream {
   0%, 100% { opacity: 0.55; filter: drop-shadow(0 0 2px rgba(245,240,232,0.2)); }
   50%      { opacity: 1.0;  filter: drop-shadow(0 0 14px rgba(245,240,232,0.8)); }
@@ -324,55 +364,55 @@ h2 {
 ────────────────────────────────────────────────────────── */
 .pred-table { margin-top: 16px; }
 .pred-header {
-  display: grid; grid-template-columns: 1.4fr 1.6fr 1.6fr;
-  gap: 10px; padding-bottom: 8px;
-  border-bottom: 1px solid rgba(201,168,76,0.3);
+  display: grid; grid-template-columns: 1.1fr 1.7fr 1.7fr;
+  gap: 16px; padding-bottom: 9px;
+  border-bottom: 2px solid rgba(201,168,76,0.35);
   margin-bottom: 6px;
 }
 .pred-header span {
-  font-family: var(--mono); font-size: 0.58rem;
+  font-family: var(--mono); font-size: 0.72rem;
   letter-spacing: 0.12em; color: var(--gold);
 }
 .pred-row {
-  display: grid; grid-template-columns: 1.4fr 1.6fr 1.6fr;
-  gap: 10px; padding: 7px 0;
-  border-bottom: 1px solid rgba(245,240,232,0.06);
-  align-items: start;
+  display: grid; grid-template-columns: 1.1fr 1.7fr 1.7fr;
+  gap: 16px; padding: 11px 0;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+  align-items: center;
 }
 .pred-row:last-child { border-bottom: none; }
 .pred-mech {
-  font-weight: 500; font-size: 0.78rem; color: var(--cream);
+  font-weight: 600; font-size: 1.05rem; color: var(--cream); line-height: 1.3;
 }
 .pred-content, .pred-effect {
-  font-size: 0.76rem; color: var(--muted); line-height: 1.45;
+  font-size: 1.02rem; color: var(--muted); line-height: 1.35;
 }
 .pred-tag {
   display: inline-block;
-  font-family: var(--mono); font-size: 0.5rem;
-  padding: 1px 5px; border-radius: 3px;
-  letter-spacing: 0.06em; margin-left: 4px;
+  font-family: var(--mono); font-size: 0.72rem;
+  padding: 2px 6px; border-radius: 3px;
+  letter-spacing: 0.06em; margin-left: 5px;
   vertical-align: middle;
 }
-.tag-novel { background: rgba(201,168,76,0.18); color: var(--gold); }
-.tag-rep   { background: rgba(74,158,191,0.18); color: var(--blue); }
+.tag-novel { background: rgba(201,168,76,0.20); color: var(--gold); }
+.tag-rep   { background: rgba(74,158,191,0.20); color: var(--blue); }
 
 /* ──────────────────────────────────────────────────────────
-   SUSPENSE PARADOX
+   BIG STAT
 ────────────────────────────────────────────────────────── */
 .big-stat {
-  font-family: var(--serif); font-size: clamp(3.5rem,8vw,7rem);
+  font-family: var(--serif); font-size: 6.5rem;
   font-weight: 700; color: var(--gold); line-height: 1;
 }
 .big-stat-label {
-  font-size: 0.88rem; color: var(--muted); margin-top: 6px;
+  font-size: 1.1rem; color: var(--muted); margin-top: 8px; line-height: 1.4;
 }
 
 /* ──────────────────────────────────────────────────────────
-   HIERARCHICAL BAYESIAN DIAGRAM (CSS-drawn)
+   HIERARCHICAL BAYESIAN BOXES
 ────────────────────────────────────────────────────────── */
 .bayes-box {
-  border: 1px solid; border-radius: 8px;
-  padding: 13px 16px; margin: 8px 0;
+  border: 1px solid; border-radius: 10px;
+  padding: 16px 20px; margin: 10px 0;
 }
 .bayes-high {
   border-color: rgba(74,158,191,0.5); background: rgba(74,158,191,0.07);
@@ -381,29 +421,33 @@ h2 {
   border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.07);
 }
 .bayes-label {
-  font-family: var(--mono); font-size: 0.58rem;
-  letter-spacing: 0.12em; margin-bottom: 5px;
+  font-family: var(--mono); font-size: 0.74rem;
+  letter-spacing: 0.14em; margin-bottom: 7px;
 }
+.bayes-body { font-size: 1.05rem; color: var(--muted); line-height: 1.45; }
 
 /* ──────────────────────────────────────────────────────────
    IMPLICATIONS
 ────────────────────────────────────────────────────────── */
-.impl-row {
-  display: flex; gap: 16px; align-items: flex-start;
-  padding: 12px 0; border-bottom: 1px solid rgba(245,240,232,0.07);
+.impl-card {
+  border: 1px solid rgba(245,240,232,0.12);
+  background: rgba(245,240,232,0.04);
+  border-radius: 12px; padding: 24px 26px;
+  display: flex; flex-direction: column; gap: 10px;
 }
-.impl-row:last-child { border-bottom: none; }
-.impl-icon { font-size: 1.4rem; flex-shrink: 0; width: 30px; text-align: center; padding-top: 1px; }
-.impl-title { font-weight: 600; font-size: 0.88rem; color: var(--cream); margin-bottom: 3px; }
-.impl-body  { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+.impl-card.gold-b { border-color: rgba(201,168,76,0.42); background: rgba(201,168,76,0.06); }
+.impl-card.blue-b { border-color: rgba(74,158,191,0.42); background: rgba(74,158,191,0.06); }
+.impl-icon  { font-size: 2.1rem; line-height: 1; }
+.impl-title { font-weight: 600; font-size: 1.35rem; color: var(--cream); }
+.impl-body  { font-size: 1.1rem; color: var(--muted); line-height: 1.5; }
 
 /* ──────────────────────────────────────────────────────────
    CLOSING
 ────────────────────────────────────────────────────────── */
 .closing-head {
   font-family: var(--serif);
-  font-size: clamp(2rem, 4.5vw, 4rem);
-  font-weight: 700; line-height: 1.15;
+  font-size: 3.1rem;
+  font-weight: 700; line-height: 1.2;
   color: var(--cream); margin: 0 auto 18px;
   text-shadow: 0 0 80px rgba(201,168,76,0.2);
 }
@@ -418,27 +462,10 @@ h2 {
 .pulse { animation: pulse 3s ease-in-out infinite; }
 
 /* ──────────────────────────────────────────────────────────
-   EQUATION ROWS
-────────────────────────────────────────────────────────── */
-.equation {
-  display: flex; align-items: center; gap: 10px; margin: 12px 0;
-}
-.eq-box {
-  flex: 1; border: 1px solid rgba(245,240,232,0.18);
-  border-radius: 8px; padding: 9px 12px; text-align: center;
-}
-.eq-box.gold-b { border-color: var(--gold); }
-.eq-box.green-b { border-color: rgba(39,174,96,0.6); background: rgba(39,174,96,0.07); }
-.eq-box.red-b   { border-color: rgba(192,57,43,0.6); background: rgba(192,57,43,0.07); }
-.eq-title { font-family: var(--mono); font-size: 0.53rem; letter-spacing: 0.1em; color: var(--dim); margin-bottom: 3px; }
-.eq-value { font-family: var(--serif); font-size: 0.9rem; font-weight: 600; color: var(--cream); }
-.eq-op, .eq-arrow { font-size: 1.4rem; color: rgba(245,240,232,0.35); flex-shrink: 0; }
-
-/* ──────────────────────────────────────────────────────────
    TINBERGEN SPLIT
 ────────────────────────────────────────────────────────── */
 .tin-img-wrap {
-  flex: 0 0 44%; position: relative; overflow: hidden;
+  flex: 0 0 38%; position: relative; overflow: hidden;
 }
 .tin-img-wrap img {
   width: 100%; height: 100%;
@@ -453,13 +480,22 @@ h2 {
 /* ──────────────────────────────────────────────────────────
    SUPERSTIMULI VISUAL GRID
 ────────────────────────────────────────────────────────── */
+/* 2 cols × 3 rows of fixed 1fr tracks. Explicit rows (not nested
+   flex:1 grids) are what keeps intrinsic image size from pushing the
+   column past the 720px frame — flex items default to min-height:auto. */
 .stim-grid {
-  display: grid; grid-template-columns: repeat(2,1fr);
-  gap: 10px; flex: 1; min-height: 0;
+  flex: 0 0 42%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 5px; padding: 5px;
+  box-sizing: border-box;
+  min-width: 0; min-height: 0;
 }
 .stim-cell {
   border-radius: 8px; overflow: hidden;
   position: relative;
+  min-width: 0; min-height: 0;
   background: rgba(245,240,232,0.04);
   border: 1px solid rgba(245,240,232,0.08);
 }
@@ -470,14 +506,14 @@ h2 {
 }
 .stim-cell .stim-cap {
   position: absolute; bottom: 0; left: 0; right: 0;
-  background: linear-gradient(transparent, rgba(10,8,14,0.88));
-  padding: 20px 10px 8px;
-  font-family: var(--mono); font-size: 0.56rem;
-  letter-spacing: 0.1em; color: var(--cream);
+  background: linear-gradient(transparent, rgba(10,8,14,0.92) 55%);
+  padding: 26px 10px 9px;
+  font-family: var(--mono); font-size: 0.8rem;
+  letter-spacing: 0.04em; color: var(--cream); line-height: 1.3;
 }
 .stim-cell .stim-domain {
-  font-size: 0.5rem; letter-spacing: 0.14em;
-  opacity: 0.6; display: block; margin-bottom: 2px;
+  font-size: 0.75rem; letter-spacing: 0.14em;
+  opacity: 0.72; display: block; margin-bottom: 3px;
 }
 
 /* SVG elements embedded as img */
@@ -493,29 +529,25 @@ h2 {
 }
 
 /* ──────────────────────────────────────────────────────────
-   STEP FLOW (Technology slide)
+   STEP FLOW
 ────────────────────────────────────────────────────────── */
 .step-flow { display: flex; align-items: stretch; gap: 0; margin-top: 18px; }
 .step-node {
   flex: 1; border: 1px solid rgba(245,240,232,0.14);
-  border-radius: 8px; padding: 14px 16px; position: relative;
+  border-radius: 10px; padding: 18px 20px; position: relative;
 }
 .step-node.gold-b { border-color: rgba(201,168,76,0.5); }
 .step-node.blue-b { border-color: rgba(74,158,191,0.5); background: rgba(74,158,191,0.06); }
 .step-connector {
-  display: flex; align-items: center; padding: 0 8px;
-  color: var(--gold); font-size: 1.3rem; flex-shrink: 0;
+  display: flex; align-items: center; padding: 0 10px;
+  color: var(--gold); font-size: 1.7rem; flex-shrink: 0;
 }
 .step-n {
-  font-family: var(--mono); font-size: 0.54rem;
-  letter-spacing: 0.14em; color: var(--gold); margin-bottom: 5px;
+  font-family: var(--mono); font-size: 0.72rem;
+  letter-spacing: 0.14em; color: var(--gold); margin-bottom: 7px;
 }
-.step-title { font-weight: 600; font-size: 0.85rem; color: var(--cream); margin-bottom: 5px; }
-.step-body { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
-.step-examples {
-  margin-top: 8px; font-size: 0.7rem;
-  color: rgba(245,240,232,0.40); font-style: italic; line-height: 1.45;
-}
+.step-title { font-weight: 600; font-size: 1.15rem; color: var(--cream); margin-bottom: 7px; }
+.step-body { font-size: 1.02rem; color: var(--muted); line-height: 1.45; }
 
 /* ──────────────────────────────────────────────────────────
    SHANNON–WEAVER BRIDGE SLIDE
@@ -546,24 +578,29 @@ h2 {
   position: relative; z-index: 2;
   display: flex; align-items: center; justify-content: center;
   width: 100%; height: 100%;
-  padding: 36px 48px 44px;
+  padding: 40px 48px 48px;
   box-sizing: border-box;
 }
 .sw-content-centered {
   flex-direction: column;
   justify-content: center;
-  gap: 22px;
+  gap: 26px;
 }
 .sw-cite-block {
   text-align: center;
   width: 100%;
-  max-width: 960px;
+  max-width: 980px;
 }
 .sw-cite-block .slide-label {
   justify-content: center;
   margin-bottom: 0;
+  font-size: 0.92rem;
 }
 .sw-cite-block .slide-label::before { display: none; }
+.sw-kicker {
+  font-family: var(--serif); font-size: 2.1rem; font-weight: 700;
+  color: var(--cream); line-height: 1.2; margin-top: 10px;
+}
 .sw-visual {
   flex: 1;
   display: flex; flex-direction: column;
@@ -574,38 +611,38 @@ h2 {
 .sw-visual-hero {
   flex: 0 1 auto;
   width: 100%;
-  max-width: 1080px;
 }
 .sw-glow {
   position: absolute;
-  width: min(96%, 900px); height: min(52vh, 340px);
+  width: 900px; height: 320px;
   background: radial-gradient(ellipse at center, rgba(201,168,76,0.16) 0%, transparent 70%);
   filter: blur(32px);
   pointer-events: none; z-index: 0;
 }
-/* Inline Shannon–Weaver diagram (matches card / step-flow styling) */
+/* Inline Shannon–Weaver diagram */
 .sw-diagram {
   position: relative; z-index: 1;
   width: 100%;
-  max-width: min(100%, 1020px);
+  max-width: 1160px;
   margin: 0 auto;
-  padding: 26px 22px 30px;
+  padding: 28px 20px 34px;
   background: rgba(245,240,232,0.04);
   border: 1px solid rgba(245,240,232,0.10);
   border-radius: 14px;
+  box-sizing: border-box;
 }
 .sw-flow {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px 6px;
+  flex-wrap: nowrap;
+  gap: 0;
 }
 .sw-step {
-  flex: 1 1 88px;
-  min-width: 76px;
-  max-width: 150px;
-  padding: 14px 12px;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 152px;
+  padding: 18px 10px;
   border-radius: 10px;
   text-align: center;
   border: 1px solid rgba(245,240,232,0.12);
@@ -618,18 +655,18 @@ h2 {
 .sw-step-k {
   display: block;
   font-family: var(--mono);
-  font-size: 0.54rem;
-  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   color: var(--gold);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   line-height: 1.2;
 }
 .sw-step-v {
   display: block;
-  font-size: clamp(0.82rem, 1.65vw, 0.98rem);
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--cream);
-  line-height: 1.25;
+  line-height: 1.2;
 }
 .sw-conn {
   flex: 0 0 auto;
@@ -637,26 +674,26 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding-bottom: 18px;
-  min-width: 42px;
+  padding-bottom: 22px;
+  min-width: 44px;
 }
 .sw-conn-lbl {
   font-family: var(--mono);
-  font-size: 0.5rem;
-  letter-spacing: 0.1em;
-  color: rgba(245,240,232,0.38);
-  margin-bottom: 3px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(245,240,232,0.48);
+  margin-bottom: 5px;
 }
 .sw-conn-arr {
   color: var(--gold);
-  font-size: 1.38rem;
+  font-size: 1.7rem;
   line-height: 1;
   opacity: 0.9;
 }
 .sw-conn-noise {
   position: relative;
-  min-width: 58px;
-  padding-bottom: 32px;
+  min-width: 62px;
+  padding-bottom: 40px;
 }
 .sw-conn-noise .sw-conn-arr { position: relative; z-index: 1; }
 .sw-noise-branch {
@@ -676,25 +713,15 @@ h2 {
 }
 .sw-noise-pill {
   font-family: var(--mono);
-  font-size: 0.5rem;
-  letter-spacing: 0.14em;
-  color: rgba(245,240,232,0.55);
-  padding: 5px 10px;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: rgba(245,240,232,0.65);
+  padding: 6px 11px;
   border-radius: 4px;
-  border: 1px dashed rgba(245,240,232,0.22);
+  border: 1px dashed rgba(245,240,232,0.26);
   background: rgba(10,8,14,0.35);
   margin-top: 2px;
   white-space: nowrap;
-}
-@media (max-width: 900px) {
-  .sw-content-centered {
-    padding: 28px 28px 36px;
-    gap: 18px;
-    overflow-y: auto;
-  }
-  .sw-diagram { padding: 18px 14px 22px; }
-  .sw-step { max-width: none; flex: 1 1 42%; }
-  .sw-conn-noise { min-width: 48px; }
 }
 </style>
 </head>
@@ -712,17 +739,17 @@ h2 {
     <div class="bg-overlay overlay-vign"></div>
 
     <div style="position:relative;z-index:2;text-align:center;padding:0 80px;">
-      <p style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.24em;color:var(--gold);margin-bottom:24px;">SCRIPT TO SCREEN · UT AUSTIN</p>
+      <p style="font-family:var(--mono);font-size:0.85rem;letter-spacing:0.24em;color:var(--gold);margin-bottom:26px;">SCRIPT TO SCREEN · UT AUSTIN</p>
       <h1 class="title-main">The Science of<br><span class="text-gold">Why Content Works</span></h1>
-      <p class="title-sub" style="text-align:center;">Audience attention, entertainment psychology, and what the research actually tells us about predicting success</p>
+      <p class="title-sub">What the research actually says about audience attention</p>
       <div class="gold-line center"></div>
       <div class="title-speaker">
         <span class="name">Robert Lewis, Ph.D.</span>
-        <span class="role" style="margin-top:6px;">Senior AI Engineer · Precocity</span>
+        <span class="role" style="margin-top:8px;">Senior AI Engineer · Precocity</span>
         <span class="role">Former Advertising Professor · UT Austin</span>
       </div>
     </div>
-    <div class="slide-counter">01 / 15</div>
+    <div class="slide-counter">01 / 16</div>
   </div>
 </section>
 
@@ -739,95 +766,141 @@ h2 {
       <h2>Enormous Investment.<br><span class="text-gold">Unreliable Prediction.</span></h2>
       <div class="gold-line"></div>
 
-      <p style="font-size:0.90rem;color:var(--muted);line-height:1.65;margin-bottom:16px;">
-        Hollywood, streaming platforms, the video game industry, and advertisers collectively invest hundreds of billions annually creating content. They still cannot reliably predict what will capture audience attention.
+      <p class="lead">
+        Hollywood, streaming, games, and advertising spend hundreds of billions a year.
+        None of them can reliably predict what will capture attention.
       </p>
 
-      <div class="card-grid cols-1" style="gap:10px;">
-        <div class="card warning-box" style="border-radius:8px;">
-          <p style="font-size:0.85rem;line-height:1.6;"><strong style="color:var(--cream);">The current toolkit:</strong> gut instinct, focus groups, and behavioral metrics — clicks, completions, watch time. Screenwriting vocabulary and trends dominate discussion.</p>
-        </div>
+      <div class="warning-box">
+        <p><strong style="color:var(--cream);">The toolkit:</strong> gut instinct, focus groups, watch-time metrics.</p>
       </div>
 
-      <div class="insight-box" style="margin-top:14px;">
-        <p style="font-size:0.88rem;line-height:1.6;"><strong>The twist:</strong> This is not a data problem. There is more audience data now than at any point in history. It is a <em>framework problem</em> — nobody has the right theoretical structure for knowing what to measure in the first place.</p>
+      <div class="insight-box">
+        <p><strong>Not a data problem.</strong> There has never been more audience data.
+        It's a <em>framework</em> problem — nobody knows what to measure.</p>
       </div>
     </div>
-    <div class="slide-counter">02 / 15</div>
+    <div class="slide-counter">02 / 16</div>
   </div>
+  <aside class="notes">
+    Hollywood, streaming platforms, the video game industry, and advertisers collectively invest
+    hundreds of billions annually creating content — and still cannot reliably predict what will
+    capture audience attention. The current toolkit is gut instinct, focus groups, and behavioral
+    metrics: clicks, completions, watch time. Screenwriting vocabulary and trends dominate the
+    discussion. The twist is that this is not a data problem. There is more audience data now than
+    at any point in history. It is a framework problem — nobody has the right theoretical structure
+    for knowing what to measure in the first place.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 3 — WHAT SCIENCE CURRENTLY KNOWS
+     SLIDE 3 — TWO TRADITIONS
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap grad-animate">
-    <div class="slide-content full">
+    <div class="slide-content">
 
       <p class="slide-label">40+ Years of Research</p>
       <h2>Entertainment Science:<br><span class="text-gold">A Fragmented Field</span></h2>
       <div class="gold-line"></div>
 
-      <div class="card-grid cols-2" style="margin-top:14px;">
+      <div class="card-grid cols-2" style="margin-top:6px;align-items:stretch;">
 
-        <div>
-          <div class="card blue" style="margin-bottom:10px;">
-            <div class="card-title">The Character Tradition (Zillmann, 1983)</div>
-            <div class="card-body">Entertainment works through audience concern for characters. Moral judgment drives engagement. Disposition theory, excitation-transfer theory. Strong empirical record built over 40 years.</div>
+        <div style="display:flex;flex-direction:column;">
+          <div class="card blue" style="margin-bottom:14px;flex:1;">
+            <div class="card-title">The Character Tradition</div>
+            <div class="card-body">Entertainment works through concern for characters. Moral judgment drives engagement. Forty years of strong empirical support.</div>
+            <p class="source-note" style="margin-top:10px;">Zillmann, 1983</p>
           </div>
-          <div class="card red fragment fade-up" style="font-size:0.78rem;padding:11px 14px;">
-            <p style="color:var(--red);font-weight:600;font-size:0.78rem;margin-bottom:4px;">Limitation</p>
-            <p class="card-body">Cannot explain character-less entertainment — music, landscapes, game mechanics, ASMR. And cannot resolve the suspense paradox.</p>
-          </div>
-        </div>
-
-        <div>
-          <div class="card green" style="margin-bottom:10px;">
-            <div class="card-title">The Play Tradition (Vorderer, Fisher et al.)</div>
-            <div class="card-body">Entertainment is cognitive play — leisure-time rehearsal that refines internal models of the world. Fisher et al. (2024): "model-updating" as entertainment's core biological function.</div>
-          </div>
-          <div class="card red fragment fade-up" style="font-size:0.78rem;padding:11px 14px;">
-            <p style="color:var(--red);font-weight:600;font-size:0.78rem;margin-bottom:4px;">Limitation</p>
-            <p class="card-body">Correctly identifies the Bayesian mechanism but provides no structure for predicting <em>when</em> entertainment will harm audiences versus help them.</p>
+          <div class="card red">
+            <p class="card-kicker" style="color:var(--red);">LIMITATION</p>
+            <p class="card-body">Can't explain entertainment without characters — music, landscapes, game mechanics, ASMR.</p>
           </div>
         </div>
 
-      </div>
-
-      <div style="margin-top:12px;">
-        <div style="font-family:var(--mono);font-size:0.52rem;letter-spacing:0.16em;color:var(--gold);border-bottom:1px solid rgba(201,168,76,0.28);padding-bottom:4px;margin-bottom:8px;">PUZZLES NEITHER TRADITION RESOLVES</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-
-          <div class="card red fragment fade-up" style="padding:10px 13px;">
-            <p style="color:var(--red);font-family:var(--mono);font-size:0.56rem;letter-spacing:0.1em;margin-bottom:4px;">THE REWATCH PARADOX</p>
-            <p class="card-body">If attention depends on novelty and uncertainty, why do <strong style="color:var(--cream);">92% of U.S. audiences</strong> rewatch content they have already seen — and enjoy it just as much?</p>
+        <div style="display:flex;flex-direction:column;">
+          <div class="card green" style="margin-bottom:14px;flex:1;">
+            <div class="card-title">The Play Tradition</div>
+            <div class="card-body">Entertainment is cognitive play — leisure-time rehearsal that refines internal models of the world.</div>
+            <p class="source-note" style="margin-top:10px;">Vorderer; Fisher et al., 2024</p>
           </div>
-
-          <div class="card red fragment fade-up" style="padding:10px 13px;">
-            <p style="color:var(--red);font-family:var(--mono);font-size:0.56rem;letter-spacing:0.1em;margin-bottom:4px;">THE MEASUREMENT PROBLEM</p>
-            <p class="card-body">Neither framework tells you <strong style="color:var(--cream);">what to measure in content.</strong> Why code violence rates and not editing pace? No principled basis for selecting which features are consequential.</p>
+          <div class="card red">
+            <p class="card-kicker" style="color:var(--red);">LIMITATION</p>
+            <p class="card-body">Finds the right mechanism, but can't predict <em>when</em> entertainment helps audiences or harms them.</p>
           </div>
-
-          <div class="card red fragment fade-up" style="padding:10px 13px;">
-            <p style="color:var(--red);font-family:var(--mono);font-size:0.56rem;letter-spacing:0.1em;margin-bottom:4px;">THE INTENSIFICATION PUZZLE</p>
-            <p class="card-body">Monsters get scarier decade-to-decade. Characters get cuter. Editing gets faster. Neither tradition can explain why entertainment <strong style="color:var(--cream);">systematically intensifies</strong> in predictable directions.</p>
-          </div>
-
-          <div class="card red fragment fade-up" style="padding:10px 13px;">
-            <p style="color:var(--red);font-family:var(--mono);font-size:0.56rem;letter-spacing:0.1em;margin-bottom:4px;">THE HARM PREDICTION GAP</p>
-            <p class="card-body">Neither framework predicts <strong style="color:var(--cream);">which audiences are harmed, in which domains, under what conditions.</strong> Harmful effects are treated as exceptions — not as something theory should have seen coming.</p>
-          </div>
-
         </div>
+
       </div>
 
     </div>
-    <div class="slide-counter">03 / 15</div>
+    <div class="slide-counter">03 / 16</div>
   </div>
+  <aside class="notes">
+    Character tradition (Zillmann, 1983): entertainment works through audience concern for
+    characters; moral judgment drives engagement. Disposition theory, excitation-transfer theory.
+    Strong empirical record built over 40 years. Its limitation: it cannot explain character-less
+    entertainment — music, landscapes, game mechanics, ASMR — and cannot resolve the suspense
+    paradox. Play tradition (Vorderer; Fisher et al., 2024): entertainment is cognitive play,
+    leisure-time rehearsal that refines internal models. Fisher et al. name "model-updating" as
+    entertainment's core biological function. Its limitation: it correctly identifies the Bayesian
+    mechanism but provides no structure for predicting when entertainment will harm audiences
+    versus help them.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 4 — SHANNON–WEAVER MODEL
+     SLIDE 4 — FOUR UNRESOLVED PUZZLES
+════════════════════════════════════════════════════════════ -->
+<section data-transition="slide">
+  <div class="slide-wrap grad-animate">
+    <div class="slide-content">
+
+      <p class="slide-label">Neither Tradition Resolves These</p>
+      <h2>Four <span class="text-gold">Open Puzzles</span></h2>
+      <div class="gold-line"></div>
+
+      <div class="card-grid cols-2" style="margin-top:6px;">
+
+        <div class="card red fragment fade-up">
+          <p class="card-kicker" style="color:var(--red);">THE REWATCH PARADOX</p>
+          <p class="card-body">If attention needs novelty, why do <strong style="color:var(--cream);">92%</strong> of audiences rewatch — and enjoy it just as much?</p>
+        </div>
+
+        <div class="card red fragment fade-up">
+          <p class="card-kicker" style="color:var(--red);">THE MEASUREMENT PROBLEM</p>
+          <p class="card-body">Why code violence and not editing pace? No principled basis for choosing what to measure.</p>
+        </div>
+
+        <div class="card red fragment fade-up">
+          <p class="card-kicker" style="color:var(--red);">THE INTENSIFICATION PUZZLE</p>
+          <p class="card-body">Monsters get scarier. Characters get cuter. Editing gets faster. Why, in predictable directions?</p>
+        </div>
+
+        <div class="card red fragment fade-up">
+          <p class="card-kicker" style="color:var(--red);">THE HARM PREDICTION GAP</p>
+          <p class="card-body">Which audiences are harmed, in which domains, under what conditions? Harm is treated as an exception.</p>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="slide-counter">04 / 16</div>
+  </div>
+  <aside class="notes">
+    Rewatch paradox: if attention depends on novelty and uncertainty, why do 92% of U.S. audiences
+    rewatch content they have already seen — and enjoy it just as much? Measurement problem:
+    neither framework tells you what to measure in content. Why code violence rates and not editing
+    pace? There's no principled basis for selecting which features are consequential.
+    Intensification puzzle: monsters get scarier decade to decade, characters get cuter, editing
+    gets faster — neither tradition explains why entertainment systematically intensifies in
+    predictable directions. Harm prediction gap: neither framework predicts which audiences are
+    harmed, in which domains, under what conditions. Harmful effects get treated as exceptions,
+    not as something theory should have seen coming.
+  </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 5 — SHANNON–WEAVER MODEL
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide" data-background-transition="slide">
   <div class="slide-wrap sw-slide">
@@ -835,6 +908,7 @@ h2 {
     <div class="sw-content sw-content-centered">
       <div class="sw-cite-block">
         <p class="slide-label">Shannon &amp; Weaver, 1948</p>
+        <p class="sw-kicker">Communication theory stops at the <span class="text-gold">destination</span>.</p>
       </div>
       <div class="sw-visual sw-visual-hero" style="position:relative;">
         <div class="sw-glow" aria-hidden="true"></div>
@@ -877,12 +951,18 @@ h2 {
         </div>
       </div>
     </div>
-    <div class="slide-counter">04 / 15</div>
+    <div class="slide-counter">05 / 16</div>
   </div>
+  <aside class="notes">
+    The foundational model of the field: a linear pipe from source to destination, with noise as
+    the only thing that happens along the way. Note what it has no place for — why the source
+    chose that message, or what the destination does to the source in return. The model treats
+    the audience as an endpoint, not as a selection pressure.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 5 — A DIFFERENT STARTING QUESTION
+     SLIDE 6 — A DIFFERENT STARTING QUESTION
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap">
@@ -894,194 +974,221 @@ h2 {
       <h2>Why Does Entertainment<br><span class="text-gold">Exist At All?</span></h2>
       <div class="gold-line"></div>
 
-      <p style="font-size:0.90rem;color:var(--muted);line-height:1.65;margin-bottom:14px;">
-        Every prior theory asks: <em>what does entertainment do to audiences?</em> This misses something fundamental — the question of why entertainment gets made.
+      <p class="lead">
+        Every prior theory asks what entertainment does <em>to audiences</em>.
+        None asks why it gets made.
       </p>
 
       <div class="insight-box">
-        <p style="font-size:0.88rem;line-height:1.6;">Producers have goals: profit, political influence, status, brand awareness. <strong>Audience benefit is a means, not the end.</strong> Entertainment exists because it captures attention in service of something producers want.</p>
+        <p>Producers have goals: profit, influence, status.
+        <strong>Audience benefit is a means, not the end.</strong></p>
       </div>
 
-      <div class="pull-quote fragment fade-up" style="margin-top:14px;">
-        <p>Entertainment is a <strong>deliberately iterated technological system</strong> — not a natural phenomenon, not a side effect of human creativity, but a technology built by people for a purpose, refined through competitive/collaborative trial-and-error over centuries.</p>
+      <div class="pull-quote fragment fade-up">
+        <p>Entertainment is a deliberately iterated technology — refined by competitive trial and error over centuries.</p>
       </div>
-
-      <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin-top:12px;" class="fragment fade-up">
-        Screenwriters, directors, studios, agencies — a field that selects which tropes, story formulas, and techniques survive. The ones that survive are the ones that capture attention.
-      </p>
     </div>
-    <div class="slide-counter">05 / 15</div>
+    <div class="slide-counter">06 / 16</div>
   </div>
+  <aside class="notes">
+    Every prior theory asks: what does entertainment do to audiences? That misses something
+    fundamental — the question of why entertainment gets made at all. Producers have goals: profit,
+    political influence, status, brand awareness. Audience benefit is a means, not the end.
+    Entertainment exists because it captures attention in service of something producers want.
+    So entertainment is a deliberately iterated technological system — not a natural phenomenon,
+    not a side effect of human creativity, but a technology built by people for a purpose.
+    Screenwriters, directors, studios, and agencies form a field that selects which tropes, story
+    formulas, and techniques survive. The ones that survive are the ones that capture attention.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 6 — TINBERGEN'S DISCOVERY
+     SLIDE 7 — TINBERGEN'S DISCOVERY
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap">
-    <!-- Left: oystercatcher eggs image -->
     <div class="tin-img-wrap">
       <img src="slide_images/s4_superstimuli_oystercatcher_supernormal_eggs.jpg" alt="Oystercatcher supernormal eggs" class="pulse">
     </div>
 
-    <div class="text-panel" style="flex:1; padding-left:48px;">
+    <div class="text-panel" style="flex:1; padding:32px 44px;">
       <p class="slide-label">Tinbergen, 1953</p>
       <h2>Superstimuli:<br><span class="text-gold">The Key Concept</span></h2>
       <div class="gold-line"></div>
 
-      <p style="font-size:0.88rem;color:var(--muted);line-height:1.65;margin-bottom:12px;">
-        Niko Tinbergen discovered that birds would abandon their own real eggs to incubate fake eggs with larger, more exaggerated spots. The supernormal stimulus — unnaturally intense — hijacked an evolved response more effectively than the natural stimulus it was designed for.
+      <p class="lead" style="margin-bottom:14px;">
+        Birds abandoned their own eggs to sit on fakes with bigger spots.
+        The exaggerated stimulus beat the real one.
       </p>
 
       <div class="insight-box">
-        <p style="font-size:0.88rem;line-height:1.6;"><strong>The claim:</strong> Entertainment producers have been doing exactly this to human audiences — through cultural-technological iteration rather than biology — and much faster than evolution could manage.</p>
+        <p><strong>The claim:</strong> producers have been doing this to human audiences —
+        by cultural iteration, far faster than evolution could manage.</p>
       </div>
 
-      <div class="fragment fade-up" style="margin-top:14px;">
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.65;">Entertainment tropes, story formulas, and genre conventions are <strong>superstimuli</strong>: systematically exaggerated stimuli that tap into evolved psychological mechanisms more intensely than natural stimuli ever could.</p>
-      </div>
-
-      <div class="pull-quote fragment fade-up">
-        <p>Producers iterate, amplify what works, and the superstimuli result is emergent — the accumulated residue of what captured attention across centuries of competition.</p>
+      <div class="fragment fade-up">
+        <p class="lead" style="margin:0;">Tropes and genre conventions
+        <strong style="color:var(--cream);">are superstimuli</strong>.</p>
       </div>
     </div>
-    <div class="slide-counter">06 / 15</div>
+    <div class="slide-counter">07 / 16</div>
   </div>
+  <aside class="notes">
+    Niko Tinbergen discovered that birds would abandon their own real eggs to incubate fake eggs
+    with larger, more exaggerated spots. The supernormal stimulus — unnaturally intense — hijacked
+    an evolved response more effectively than the natural stimulus it was designed for. The claim
+    here: entertainment producers have been doing exactly this to human audiences, through
+    cultural-technological iteration rather than biology, and much faster than evolution could
+    manage. Entertainment tropes, story formulas, and genre conventions are superstimuli:
+    systematically exaggerated stimuli that tap evolved psychological mechanisms more intensely
+    than natural stimuli ever could. Producers iterate and amplify what works; the superstimuli
+    result is emergent — the accumulated residue of what captured attention across centuries of
+    competition.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 7 — THE SIX EVOLUTIONARY DOMAINS
+     SLIDE 8 — THE SIX EVOLUTIONARY DOMAINS
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap grad-animate">
     <div class="slide-content full">
 
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px;">
         <div>
-          <p class="slide-label" style="margin-bottom:6px;">Dubourg et al., 2024 · 73 cognitive mechanisms</p>
+          <p class="slide-label" style="margin-bottom:8px;">Dubourg et al., 2024</p>
           <h2>Six Evolutionary Domains<br><span class="text-gold">Entertainment Exploits</span></h2>
         </div>
         <div style="flex-shrink:0;">
           <img src="slide_images/s4_superstimuli_nosferatu_orlok_shadow_silhouette.svg"
-               alt="Nosferatu" class="nosferatu-el" style="height:120px;width:auto;">
+               alt="Nosferatu" class="nosferatu-el" style="height:130px;width:auto;">
         </div>
       </div>
       <div class="gold-line"></div>
 
       <div class="domain-grid-6">
         <div class="domain-pill dp-self fragment fade-up">
-          <p class="dp-label" style="color:#4A9EBF;">SELF</p>
-          <p class="dp-example">Training montages, curiosity mysteries, resource-accumulation fantasy</p>
-          <p class="dp-effect">→ Underestimate mastery time; elevated conspiracy belief</p>
+          <p class="dp-label" style="color:#7FC4E0;">SELF</p>
+          <p class="dp-example">Training montages, curiosity mysteries</p>
+          <p class="dp-effect">→ Underestimate time to mastery</p>
         </div>
         <div class="domain-pill dp-threats fragment fade-up">
-          <p class="dp-label" style="color:#E74C3C;">THREATS</p>
-          <p class="dp-example">Bigger monsters, more violence, body horror, sophisticated criminals</p>
-          <p class="dp-effect">→ Mean world syndrome; overestimate crime rates</p>
+          <p class="dp-label" style="color:#E8705F;">THREATS</p>
+          <p class="dp-example">Bigger monsters, more violence</p>
+          <p class="dp-effect">→ Mean world syndrome</p>
         </div>
         <div class="domain-pill dp-coop fragment fade-up">
-          <p class="dp-label" style="color:#27AE60;">COOPERATORS</p>
-          <p class="dp-example">Superhuman doctors, heroic self-sacrifice, idealized friendships</p>
-          <p class="dp-effect">→ CSI Effect; real-friendship dissatisfaction</p>
+          <p class="dp-label" style="color:#5FD48C;">COOPERATORS</p>
+          <p class="dp-example">Superhuman doctors, heroic sacrifice</p>
+          <p class="dp-effect">→ CSI effect; friendship letdown</p>
         </div>
         <div class="domain-pill dp-comp fragment fade-up">
-          <p class="dp-label" style="color:#E67E22;">COMPETITORS</p>
-          <p class="dp-example">Rags-to-riches, exploitation, comeuppance narratives</p>
-          <p class="dp-effect">→ Inflated meritocracy beliefs; schadenfreude endorsement</p>
+          <p class="dp-label" style="color:#F0A05A;">COMPETITORS</p>
+          <p class="dp-example">Rags-to-riches, comeuppance</p>
+          <p class="dp-effect">→ Inflated meritocracy beliefs</p>
         </div>
         <div class="domain-pill dp-mates fragment fade-up">
-          <p class="dp-label" style="color:#9B59B6;">MATES</p>
-          <p class="dp-example">Idealized bodies, soulmate narratives, sexual availability</p>
-          <p class="dp-effect">→ Unrealistic partner standards; relationship dissatisfaction</p>
+          <p class="dp-label" style="color:#C290E0;">MATES</p>
+          <p class="dp-example">Idealized bodies, soulmate plots</p>
+          <p class="dp-effect">→ Unrealistic partner standards</p>
         </div>
         <div class="domain-pill dp-kin fragment fade-up">
-          <p class="dp-label" style="color:#1ABC9C;">KIN</p>
-          <p class="dp-example">Children in danger, idealized family bonds, parental sacrifice</p>
-          <p class="dp-effect">→ Stranger danger panic; helicopter parenting; family dissatisfaction</p>
+          <p class="dp-label" style="color:#5FD9C0;">KIN</p>
+          <p class="dp-example">Children in danger, perfect families</p>
+          <p class="dp-effect">→ Stranger-danger panic</p>
         </div>
       </div>
 
-      <p style="font-family:var(--mono);font-size:0.55rem;color:var(--dim);letter-spacing:0.07em;margin-top:10px;text-align:right;">
-        Source: Dubourg et al. (2024). The Cognitive Foundations of Fictional Stories. <em>Psychological Review.</em>
+      <p class="source-note" style="margin-top:14px;text-align:right;">
+        Dubourg et al. (2024). The Cognitive Foundations of Fictional Stories. <em>Psychological Review.</em>
       </p>
 
     </div>
-    <div class="slide-counter">07 / 15</div>
+    <div class="slide-counter">08 / 16</div>
   </div>
+  <aside class="notes">
+    Six domains, 73 underlying cognitive mechanisms. SELF: training montages, curiosity mysteries,
+    resource-accumulation fantasy → underestimate mastery time, elevated conspiracy belief.
+    THREATS: bigger monsters, more violence, body horror, sophisticated criminals → mean world
+    syndrome, overestimate crime rates. COOPERATORS: superhuman doctors, heroic self-sacrifice,
+    idealized friendships → CSI effect, real-friendship dissatisfaction. COMPETITORS:
+    rags-to-riches, exploitation, comeuppance → inflated meritocracy beliefs, schadenfreude
+    endorsement. MATES: idealized bodies, soulmate narratives, sexual availability → unrealistic
+    partner standards, relationship dissatisfaction. KIN: children in danger, idealized family
+    bonds, parental sacrifice → stranger danger panic, helicopter parenting, family
+    dissatisfaction.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 8 — 73 MECHANISMS GRID
+     SLIDE 9 — 73 MECHANISMS GRID
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap grad-animate" style="padding:0;">
-    <div class="slide-content full" style="padding:22px 36px 14px;">
+    <div class="slide-content full" style="padding:26px 36px 16px;">
 
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px;">
         <div>
-          <p class="slide-label" style="margin-bottom:4px;">Dubourg et al., 2024 · Figure 23</p>
-          <h2 style="font-size:clamp(1.4rem,2.4vw,2rem);margin:0;">73 Cognitive Mechanisms</h2>
+          <p class="slide-label" style="margin-bottom:6px;">Dubourg et al., 2024 · Figure 23</p>
+          <h2 style="font-size:2rem;margin:0;">73 Cognitive Mechanisms</h2>
         </div>
         <div style="text-align:right;">
-          <span style="font-family:var(--mono);font-size:0.56rem;color:var(--muted);">29 INPUT-CONDITION EVALUATORS &nbsp;+&nbsp; 44 MOTIVATIONAL MECHANISMS</span>
+          <span style="font-family:var(--mono);font-size:0.76rem;color:var(--muted);letter-spacing:0.08em;">29 EVALUATORS &nbsp;+&nbsp; 44 MOTIVATIONAL</span>
         </div>
       </div>
 
-      <!-- Section label: INPUT-CONDITION EVALUATORS -->
-      <div style="font-family:var(--mono);font-size:0.52rem;letter-spacing:0.16em;color:var(--gold);border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:4px;margin-bottom:6px;">INPUT-CONDITION EVALUATORS (TABLE 2 LAYER) · ROWS 1–29</div>
-
-      <!-- Input-condition grid: 6 columns × 5 rows = 30 cells (29 used) -->
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-bottom:8px;">
-        <div class="mchip">Predator detector</div>
-        <div class="mchip">Aggressor detector</div>
-        <div class="mchip">Pathogen detector</div>
+      <!-- Labels shortened from Dubourg Fig. 23 for projector legibility.
+           The section header carries the "evaluator" sense, so these are
+           bare nouns: the thing being evaluated. Full names in the paper. -->
+      <div class="mech-section">INPUT-CONDITION EVALUATORS · 1–29</div>
+      <div class="mech-grid" style="margin-bottom:12px;">
+        <div class="mchip">Predator</div>
+        <div class="mchip">Aggressor</div>
+        <div class="mchip">Pathogen</div>
         <div class="mchip">Physical pain</div>
         <div class="mchip">Intuitive physics</div>
         <div class="mchip">Intuitive biology</div>
         <div class="mchip">Theory of mind</div>
-        <div class="mchip">Explanation evaluator</div>
+        <div class="mchip">Explanation</div>
         <div class="mchip">Technical reasoning</div>
-        <div class="mchip">Nutritional resources</div>
-        <div class="mchip">Landscape evaluator</div>
+        <div class="mchip">Nutrition</div>
+        <div class="mchip">Landscape</div>
         <div class="mchip">Social devaluation</div>
-        <div class="mchip">Humor appreciation</div>
-        <div class="mchip">Agency / Locus of control</div>
-        <div class="mchip">Competence evaluator</div>
-        <div class="mchip">Trustworthiness evaluator</div>
-        <div class="mchip">Warmth evaluator</div>
-        <div class="mchip">Resources evaluator</div>
-        <div class="mchip">Formidability evaluator</div>
-        <div class="mchip">Status evaluator</div>
-        <div class="mchip">Fairness / Free-rider</div>
-        <div class="mchip">Group member detector</div>
-        <div class="mchip">Coalitions evaluator</div>
-        <div class="mchip">Fertility detector</div>
-        <div class="mchip">Good genes evaluator</div>
-        <div class="mchip">Fidelity detector</div>
-        <div class="mchip">Cuteness detector</div>
-        <div class="mchip">Relatedness evaluator</div>
-        <div class="mchip">Kin detector</div>
+        <div class="mchip">Humor</div>
+        <div class="mchip">Locus of control</div>
+        <div class="mchip">Competence</div>
+        <div class="mchip">Trustworthiness</div>
+        <div class="mchip">Warmth</div>
+        <div class="mchip">Resources</div>
+        <div class="mchip">Formidability</div>
+        <div class="mchip">Status</div>
+        <div class="mchip">Free-rider</div>
+        <div class="mchip">Group member</div>
+        <div class="mchip">Coalitions</div>
+        <div class="mchip">Fertility</div>
+        <div class="mchip">Good genes</div>
+        <div class="mchip">Fidelity</div>
+        <div class="mchip">Cuteness</div>
+        <div class="mchip">Relatedness</div>
+        <div class="mchip">Kin</div>
       </div>
 
-      <!-- Section label: MOTIVATIONAL -->
-      <div style="font-family:var(--mono);font-size:0.52rem;letter-spacing:0.16em;color:var(--gold);border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:4px;margin-bottom:6px;">MOTIVATIONAL MECHANISMS · ROWS 30–73</div>
-
-      <!-- Motivational grid: domain groups inline, 6 columns -->
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;">
+      <div class="mech-section">MOTIVATIONAL MECHANISMS · 30–73</div>
+      <div class="mech-grid">
         <!-- SELF (9) -->
         <div class="mchip mc-self">Hunger</div>
         <div class="mchip mc-self">Thirst</div>
-        <div class="mchip mc-self">Feeling cold/hot</div>
-        <div class="mchip mc-self">Sleepiness / Fatigue</div>
+        <div class="mchip mc-self">Cold / heat</div>
+        <div class="mchip mc-self">Fatigue</div>
         <div class="mchip mc-self">Curiosity</div>
         <div class="mchip mc-self">Skill acquisition</div>
-        <div class="mchip mc-self">Resource accumulation</div>
-        <div class="mchip mc-self">Resource foraging</div>
-        <div class="mchip mc-self">Simulation / Mental Time Travel</div>
+        <div class="mchip mc-self">Accumulation</div>
+        <div class="mchip mc-self">Foraging</div>
+        <div class="mchip mc-self">Mental time travel</div>
         <!-- THREATS (5) -->
-        <div class="mchip mc-threats">Fear of predators</div>
-        <div class="mchip mc-threats">Fear of aggressors</div>
-        <div class="mchip mc-threats">Fear of heights</div>
+        <div class="mchip mc-threats">Fear: predators</div>
+        <div class="mchip mc-threats">Fear: aggressors</div>
+        <div class="mchip mc-threats">Fear: heights</div>
         <div class="mchip mc-threats">Disgust</div>
         <div class="mchip mc-threats">Pain aversion</div>
         <!-- COOPERATORS (15) -->
@@ -1090,22 +1197,22 @@ h2 {
         <div class="mchip mc-coop">Moral pride</div>
         <div class="mchip mc-coop">Guilt</div>
         <div class="mchip mc-coop">Warmth</div>
-        <div class="mchip mc-coop">Moral blame / Indignation</div>
+        <div class="mchip mc-coop">Moral blame</div>
         <div class="mchip mc-coop">Moral praise</div>
         <div class="mchip mc-coop">Revenge</div>
         <div class="mchip mc-coop">Forgiveness</div>
         <div class="mchip mc-coop">Compassion</div>
-        <div class="mchip mc-coop">Cooperative attraction</div>
+        <div class="mchip mc-coop">Coop. attraction</div>
         <div class="mchip mc-coop">Friendship</div>
-        <div class="mchip mc-coop">Cringe / Embarrassment</div>
+        <div class="mchip mc-coop">Cringe</div>
         <div class="mchip mc-coop">Reasoning</div>
-        <div class="mchip mc-coop">Coalitional affiliation</div>
+        <div class="mchip mc-coop">Coalition loyalty</div>
         <!-- COMPETITORS (5) -->
         <div class="mchip mc-comp">Aggressiveness</div>
         <div class="mchip mc-comp">Status-seeking</div>
-        <div class="mchip mc-comp">Envy / Jealousy</div>
+        <div class="mchip mc-comp">Envy</div>
         <div class="mchip mc-comp">Anger</div>
-        <div class="mchip mc-comp">Hate / Schadenfreude</div>
+        <div class="mchip mc-comp">Schadenfreude</div>
         <!-- MATES (7) -->
         <div class="mchip mc-mates">Romantic attraction</div>
         <div class="mchip mc-mates">Sexual attraction</div>
@@ -1120,330 +1227,352 @@ h2 {
         <div class="mchip mc-kin">Familial love</div>
       </div>
 
-      <!-- Domain color key -->
-      <div style="display:flex;gap:12px;margin-top:7px;flex-wrap:wrap;">
-        <span style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.1em;color:#4A9EBF;">&#9632; SELF</span>
-        <span style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.1em;color:#C0392B;">&#9632; THREATS</span>
-        <span style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.1em;color:#27AE60;">&#9632; COOPERATORS</span>
-        <span style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.1em;color:#E67E22;">&#9632; COMPETITORS</span>
-        <span style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.1em;color:#9B59B6;">&#9632; MATES</span>
-        <span style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.1em;color:#1ABC9C;">&#9632; KIN</span>
-        <span style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.1em;color:var(--dim);">&#9632; INPUT-CONDITION EVALUATORS (no domain)</span>
+      <div class="mech-key">
+        <span style="color:#7FC4E0;">&#9632; SELF</span>
+        <span style="color:#E8705F;">&#9632; THREATS</span>
+        <span style="color:#5FD48C;">&#9632; COOPERATORS</span>
+        <span style="color:#F0A05A;">&#9632; COMPETITORS</span>
+        <span style="color:#C290E0;">&#9632; MATES</span>
+        <span style="color:#5FD9C0;">&#9632; KIN</span>
+        <span style="color:var(--dim);">&#9632; EVALUATORS (NO DOMAIN)</span>
       </div>
 
     </div>
-    <div class="slide-counter">08 / 15</div>
+    <div class="slide-counter">09 / 16</div>
     <div class="conf-tag">Script to Screen · UT Austin</div>
   </div>
+  <aside class="notes">
+    This slide is deliberately a wall — the point is the scale of the taxonomy, not reading every
+    cell. Labels are shortened from Dubourg's Figure 23 for legibility; the full names are in the
+    paper. Two layers: 29 input-condition evaluators that assess what a stimulus is, and 44
+    motivational mechanisms that make you want something about it, sorted into the six domains.
+    Say the headline number out loud and move on.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 9 — SUPERSTIMULI IN ENTERTAINMENT
+     SLIDE 10 — SUPERSTIMULI IN ENTERTAINMENT
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap" style="padding:0;">
 
-    <!-- Right side: image quad -->
-    <div style="flex:0 0 44%;display:flex;flex-direction:column;gap:4px;padding:4px;">
-      <!-- Cuteness examples: 2×2 mini-grid -->
-      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:4px;">
-        <div class="stim-cell">
-          <img src="slide_images/s4_cute_gizmo_mogwai_gremlins.jpg" alt="Gizmo — Gremlins 1984"
-               style="object-position:center 30%;">
-          <div class="stim-cap">
-            <span class="stim-domain">KIN · CUTENESS</span>
-            Gizmo, Gremlins (1984)
-          </div>
-        </div>
-        <div class="stim-cell">
-          <img src="slide_images/s4_cute_grogu_face.jpg" alt="Grogu — The Mandalorian"
-               style="object-fit:contain;background:#111;padding:8px;">
-          <div class="stim-cap">
-            <span class="stim-domain">KIN · CUTENESS</span>
-            Grogu, The Mandalorian
-          </div>
-        </div>
-        <div class="stim-cell">
-          <img src="slide_images/s4_cute_anime_totoro.jpg" alt="Totoro — Studio Ghibli"
-               style="object-position:60% center;">
-          <div class="stim-cap">
-            <span class="stim-domain">KIN · CUTENESS</span>
-            Totoro, Studio Ghibli
-          </div>
-        </div>
-        <div class="stim-cell">
-          <img src="slide_images/s4_cute_kirby_game.jpg" alt="Kirby — Nintendo"
-               style="object-position:center 70%;">
-          <div class="stim-cap">
-            <span class="stim-domain">KIN · CUTENESS</span>
-            Kirby, Nintendo
-          </div>
+    <div class="stim-grid">
+      <div class="stim-cell">
+        <img src="slide_images/s4_cute_gizmo_mogwai_gremlins.jpg" alt="Gizmo — Gremlins 1984"
+             style="object-position:center 30%;">
+        <div class="stim-cap">
+          <span class="stim-domain">KIN · CUTENESS</span>
+          Gizmo, 1984
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;flex:1;">
-        <div class="stim-cell">
-          <img src="slide_images/s4_superstimuli_king_kong_1933_empire_state_building.jpg"
-               alt="King Kong 1933 — threat superstimulus" style="object-position:center 20%;">
-          <div class="stim-cap">
-            <span class="stim-domain">THREATS DOMAIN</span>
-            Size superstimulus — monster as exaggerated predator
-          </div>
+      <div class="stim-cell">
+        <img src="slide_images/s4_cute_grogu_face.jpg" alt="Grogu — The Mandalorian"
+             style="object-fit:contain;background:#111;padding:8px;box-sizing:border-box;">
+        <div class="stim-cap">
+          <span class="stim-domain">KIN · CUTENESS</span>
+          Grogu, 2019
         </div>
-        <div class="stim-cell" style="background:#06050A;display:flex;align-items:center;justify-content:center;">
-          <img src="slide_images/s4_superstimuli_betty_boop_1932_drawing.svg"
-               alt="Betty Boop — mate superstimulus"
-               style="height:90%;width:auto;opacity:0.85;object-fit:contain;">
-          <div class="stim-cap">
-            <span class="stim-domain">MATES DOMAIN</span>
-            Exaggerated character features — eyes, waist, expressiveness
-          </div>
+      </div>
+      <div class="stim-cell">
+        <img src="slide_images/s4_cute_anime_totoro.jpg" alt="Totoro — Studio Ghibli"
+             style="object-position:60% center;">
+        <div class="stim-cap">
+          <span class="stim-domain">KIN · CUTENESS</span>
+          Totoro, Ghibli
+        </div>
+      </div>
+      <div class="stim-cell">
+        <img src="slide_images/s4_cute_kirby_game.jpg" alt="Kirby — Nintendo"
+             style="object-position:center 70%;">
+        <div class="stim-cap">
+          <span class="stim-domain">KIN · CUTENESS</span>
+          Kirby, Nintendo
+        </div>
+      </div>
+      <div class="stim-cell">
+        <img src="slide_images/s4_superstimuli_king_kong_1933_empire_state_building.jpg"
+             alt="King Kong 1933 — threat superstimulus" style="object-position:center 20%;">
+        <div class="stim-cap">
+          <span class="stim-domain">THREATS</span>
+          Exaggerated predator
+        </div>
+      </div>
+      <div class="stim-cell" style="background:#06050A;">
+        <img src="slide_images/s4_superstimuli_betty_boop_1932_drawing.svg"
+             alt="Betty Boop — mate superstimulus"
+             style="object-fit:contain;padding:12px 12px 30px;box-sizing:border-box;
+                    opacity:0.9;filter:invert(1);">
+        <div class="stim-cap">
+          <span class="stim-domain">MATES</span>
+          Exaggerated features
         </div>
       </div>
     </div>
 
-    <!-- Left side: text -->
-    <div class="text-panel" style="flex:0 0 56%;border-left:1px solid rgba(245,240,232,0.06);">
+    <div class="text-panel" style="flex:0 0 58%;border-left:1px solid rgba(245,240,232,0.06);">
       <p class="slide-label">Superstimuli in Action</p>
-      <h2>Producers Amplify<br><span class="text-gold">Whatever Captures Attention</span></h2>
+      <h2>Producers Amplify<br><span class="text-gold">Whatever Gets a Reaction</span></h2>
       <div class="gold-line"></div>
 
-      <p style="font-size:0.88rem;color:var(--muted);line-height:1.65;margin-bottom:14px;">
-        These images are not accidents of taste. They are the accumulated result of a competitive selection process across decades — each iteration slightly more exaggerated than the last.
+      <p class="lead">
+        These aren't accidents of taste. They're the residue of decades of competitive iteration.
       </p>
 
-      <div class="card-grid cols-1" style="gap:9px;">
-        <div class="card" style="display:flex;gap:12px;align-items:flex-start;" class="fragment fade-up">
-          <div style="flex:0 0 auto;font-family:var(--mono);font-size:0.6rem;color:#4A9EBF;letter-spacing:0.1em;padding-top:2px;">EVOLUTION</div>
-          <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;">Animated characters have gotten <em>progressively cuter</em> since the 1930s. Monsters <em>progressively scarier</em>. Romantic leads <em>progressively more idealized</em>. Editing <em>progressively faster</em>. None of this is coincidence.</div>
+      <div class="card-grid cols-1" style="gap:12px;margin-top:0;">
+        <div class="card fragment fade-up">
+          <p class="card-kicker" style="color:#7FC4E0;">EVOLUTION</p>
+          <p class="card-body">Characters keep getting cuter. Monsters scarier. Editing faster. None of it is coincidence.</p>
         </div>
-        <div class="card fragment fade-up" style="display:flex;gap:12px;align-items:flex-start;">
-          <div style="flex:0 0 auto;font-family:var(--mono);font-size:0.6rem;color:var(--gold);letter-spacing:0.1em;padding-top:2px;">MECHANISM</div>
-          <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;">As audiences habituate to one level of intensity, producers exaggerate further to recapture the same attentional response. The ratchet only goes one direction.</div>
+        <div class="card fragment fade-up">
+          <p class="card-kicker" style="color:var(--gold);">MECHANISM</p>
+          <p class="card-body">Audiences habituate, so producers exaggerate further. The ratchet only turns one way.</p>
         </div>
       </div>
     </div>
 
-    <div class="slide-counter">09 / 15</div>
+    <div class="slide-counter">10 / 16</div>
   </div>
+  <aside class="notes">
+    These images are not accidents of taste. They are the accumulated result of a competitive
+    selection process across decades — each iteration slightly more exaggerated than the last.
+    Animated characters have gotten progressively cuter since the 1930s; monsters progressively
+    scarier; romantic leads progressively more idealized; editing progressively faster. The
+    mechanism: as audiences habituate to one level of intensity, producers exaggerate further to
+    recapture the same attentional response. The ratchet only goes one direction.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 9 — THE PREDICTIVE MIND
+     SLIDE 11 — THE PREDICTIVE MIND
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap" style="padding:0;">
 
-    <div class="text-panel" style="flex:0 0 55%;padding:52px 52px 52px 64px;">
+    <div class="text-panel" style="flex:0 0 58%;padding:44px 44px 44px 56px;">
       <p class="slide-label">Why Superstimuli Work</p>
       <h2>The <span class="text-gold">Predictive Brain</span></h2>
       <div class="gold-line"></div>
 
-      <p style="font-size:0.88rem;color:var(--muted);line-height:1.65;margin-bottom:12px;">
-        The classical model of attention — passive filtering of incoming stimuli — is wrong. The brain does not wait for input and then respond.
+      <p class="lead">
+        Attention isn't passive filtering. The brain predicts first, then attends to whatever breaks the prediction.
       </p>
 
       <div class="insight-box">
-        <p style="font-size:0.87rem;line-height:1.65;"><strong>Predictive processing (Friston, 2010; Clark, 2013):</strong> The brain continuously generates probabilistic models of the world and updates them when reality deviates from prediction. <strong>Attention</strong> is the brain's way of precision-weighting which prediction errors are most informative.</p>
+        <p><strong>Predictive processing:</strong> the brain models the world and updates when
+        reality deviates. Attention weights which errors matter.</p>
+        <p class="source-note" style="margin-top:10px;">Friston, 2010 · Clark, 2013</p>
       </div>
 
-      <div class="fragment fade-up" style="margin-top:12px;">
+      <div class="fragment fade-up">
         <div class="bayes-box bayes-high">
-          <p class="bayes-label" style="color:var(--blue);">WHAT SUPERSTIMULI DO</p>
-          <p style="font-size:0.80rem;color:var(--muted);line-height:1.5;">They trigger <strong>high-magnitude prediction errors</strong> in evolved sensory and motivational systems — larger errors than any naturally occurring stimulus would produce. The brain cannot ignore them.</p>
+          <p class="bayes-label" style="color:#7FC4E0;">WHAT SUPERSTIMULI DO</p>
+          <p class="bayes-body">Force prediction errors larger than nature ever produces. The brain can't ignore them.</p>
         </div>
       </div>
 
-      <div class="fragment fade-up" style="margin-top:10px;">
+      <div class="fragment fade-up">
         <div class="bayes-box bayes-low">
           <p class="bayes-label" style="color:var(--gold);">THE PRODUCER INSIGHT</p>
-          <p style="font-size:0.80rem;color:var(--muted);line-height:1.5;">Producers don't know Bayesian inference. They just know what gets a reaction. Through trial-and-error, they've been engineering maximal prediction errors in evolved systems for centuries.</p>
+          <p class="bayes-body">Producers don't know Bayesian inference. They know what gets a reaction.</p>
         </div>
       </div>
     </div>
 
-    <!-- Right side: brain SVG -->
     <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:40px;
                 border-left:1px solid rgba(245,240,232,0.06);position:relative;">
       <div style="position:absolute;inset:0;background:rgba(74,158,191,0.02);"></div>
       <div style="text-align:center;position:relative;z-index:2;">
         <img src="slide_images/s5_brain_brain_lateral_view_diagram.svg"
              alt="Brain diagram"
-             style="width:100%;max-width:340px;opacity:0.60;filter:invert(1) sepia(0.1) hue-rotate(190deg) brightness(0.75);">
-        <p style="font-family:var(--mono);font-size:0.58rem;color:var(--dim);letter-spacing:0.1em;margin-top:16px;">
+             style="width:100%;max-width:300px;opacity:0.60;filter:invert(1) sepia(0.1) hue-rotate(190deg) brightness(0.75);">
+        <p style="font-family:var(--mono);font-size:0.74rem;color:var(--dim);letter-spacing:0.08em;margin-top:18px;line-height:1.5;">
           Prediction error minimization<br>as the basis of attention
         </p>
       </div>
     </div>
 
-    <div class="slide-counter">10 / 15</div>
+    <div class="slide-counter">11 / 16</div>
   </div>
+  <aside class="notes">
+    The classical model of attention — passive filtering of incoming stimuli — is wrong. The brain
+    does not wait for input and then respond. Predictive processing (Friston, 2010; Clark, 2013):
+    the brain continuously generates probabilistic models of the world and updates them when
+    reality deviates from prediction. Attention is the brain's way of precision-weighting which
+    prediction errors are most informative. What superstimuli do: trigger high-magnitude prediction
+    errors in evolved sensory and motivational systems — larger errors than any naturally occurring
+    stimulus would produce. The brain cannot ignore them. And producers don't know Bayesian
+    inference; they just know what gets a reaction. Through trial and error they've been
+    engineering maximal prediction errors in evolved systems for centuries.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 10 — CONTENT ↔ AUDIENCES FEEDBACK LOOP
+     SLIDE 12 — CONTENT ↔ AUDIENCES FEEDBACK LOOP
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="fade">
   <div class="slide-wrap grad-animate" style="padding:0;align-items:center;justify-content:center;">
     <div style="position:relative;z-index:2;width:100%;display:flex;align-items:center;padding:0 56px;box-sizing:border-box;gap:32px;">
 
-      <!-- LEFT: CONTENT -->
       <div style="flex:0 0 auto;text-align:right;">
-        <div style="font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5rem);font-weight:700;color:var(--cream);line-height:1;letter-spacing:-0.01em;">Content</div>
-        <div style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.18em;color:rgba(245,240,232,0.28);margin-top:10px;">SUPERSTIMULI<br>DELIVERED</div>
+        <div style="font-family:var(--serif);font-size:4.6rem;font-weight:700;color:var(--cream);line-height:1;letter-spacing:-0.01em;">Content</div>
+        <div style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.18em;color:rgba(245,240,232,0.42);margin-top:14px;line-height:1.5;">SUPERSTIMULI<br>DELIVERED</div>
       </div>
 
-      <!-- CENTER: Two arrow rows -->
-      <div style="flex:1;display:flex;flex-direction:column;gap:28px;min-width:0;">
+      <div style="flex:1;display:flex;flex-direction:column;gap:34px;min-width:0;">
 
-        <!-- Arrow 1: Content → Audiences (cream, going right) -->
         <div>
-          <div style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.13em;color:rgba(245,240,232,0.38);margin-bottom:7px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:0.78rem;letter-spacing:0.12em;color:rgba(245,240,232,0.6);margin-bottom:10px;text-align:center;">
             calibrates priors &amp; expectations
           </div>
           <div style="display:flex;align-items:center;gap:0;">
-            <div style="flex:1;height:1.5px;background:linear-gradient(90deg,rgba(245,240,232,0.15),rgba(245,240,232,0.85));
+            <div style="flex:1;height:2px;background:linear-gradient(90deg,rgba(245,240,232,0.15),rgba(245,240,232,0.85));
                         animation:pulseArcCream 2.8s ease-in-out infinite;"></div>
-            <svg width="14" height="10" viewBox="0 0 14 10" style="flex:0 0 14px;animation:pulseArcCream 2.8s ease-in-out infinite;">
+            <svg width="18" height="13" viewBox="0 0 14 10" style="flex:0 0 18px;animation:pulseArcCream 2.8s ease-in-out infinite;">
               <polygon points="0,0 14,5 0,10" fill="rgba(245,240,232,0.85)"/>
             </svg>
           </div>
         </div>
 
-        <!-- Arrow 2: Audiences → Content (gold, going left) -->
         <div>
           <div style="display:flex;align-items:center;gap:0;">
-            <svg width="14" height="10" viewBox="0 0 14 10" style="flex:0 0 14px;animation:pulseArcGold 2.8s ease-in-out 1.4s infinite;">
+            <svg width="18" height="13" viewBox="0 0 14 10" style="flex:0 0 18px;animation:pulseArcGold 2.8s ease-in-out 1.4s infinite;">
               <polygon points="14,0 0,5 14,10" fill="rgba(201,168,76,0.90)"/>
             </svg>
-            <div style="flex:1;height:1.5px;background:linear-gradient(90deg,rgba(201,168,76,0.85),rgba(201,168,76,0.15));
+            <div style="flex:1;height:2px;background:linear-gradient(90deg,rgba(201,168,76,0.85),rgba(201,168,76,0.15));
                         animation:pulseArcGold 2.8s ease-in-out 1.4s infinite;"></div>
           </div>
-          <div style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.13em;color:rgba(201,168,76,0.45);margin-top:7px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:0.78rem;letter-spacing:0.12em;color:rgba(201,168,76,0.72);margin-top:10px;text-align:center;">
             selects what captures attention
           </div>
         </div>
 
       </div>
 
-      <!-- RIGHT: AUDIENCES -->
       <div style="flex:0 0 auto;text-align:left;">
-        <div style="font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5rem);font-weight:700;color:var(--gold);line-height:1;letter-spacing:-0.01em;">Audiences</div>
-        <div style="font-family:var(--mono);font-size:0.48rem;letter-spacing:0.18em;color:rgba(201,168,76,0.28);margin-top:10px;">PRIORS<br>UPDATED</div>
+        <div style="font-family:var(--serif);font-size:4.6rem;font-weight:700;color:var(--gold);line-height:1;letter-spacing:-0.01em;">Audiences</div>
+        <div style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.18em;color:rgba(201,168,76,0.46);margin-top:14px;line-height:1.5;">PRIORS<br>UPDATED</div>
       </div>
 
     </div>
 
-    <!-- Bottom caption -->
-    <div style="position:absolute;bottom:28px;left:0;right:0;text-align:center;z-index:2;">
-      <p style="font-family:var(--mono);font-size:0.50rem;letter-spacing:0.16em;color:rgba(245,240,232,0.18);">
-        EACH SHAPES THE OTHER · THE RATCHET ONLY RUNS ONE DIRECTION
+    <div style="position:absolute;bottom:34px;left:0;right:0;text-align:center;z-index:2;">
+      <p style="font-family:var(--mono);font-size:0.76rem;letter-spacing:0.16em;color:rgba(245,240,232,0.32);">
+        EACH SHAPES THE OTHER · THE RATCHET RUNS ONE DIRECTION
       </p>
     </div>
 
-    <div class="slide-counter">11 / 15</div>
+    <div class="slide-counter">12 / 16</div>
     <div class="conf-tag">Script to Screen · UT Austin</div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 11 — CULTIVATION EFFECTS
+     SLIDE 13 — CULTIVATION EFFECTS
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="fade">
   <div class="slide-wrap">
     <div class="bg-full" style="background-image:url('slide_images/s6_cultivation_family_watching_television_1958.jpg');
                                 background-position:center 35%;filter:grayscale(1);"></div>
-    <div class="bg-overlay" style="background:rgba(10,8,14,0.80);"></div>
+    <div class="bg-overlay" style="background:rgba(10,8,14,0.84);"></div>
 
-    <div class="slide-content full" style="padding-top:36px;">
+    <div class="slide-content full" style="padding-top:32px;">
       <p class="slide-label">The Consequence</p>
       <h2>Repeated Exposure<br><span class="text-gold">Distorts Priors</span></h2>
       <div class="gold-line"></div>
 
-      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px;max-width:660px;">
-        If the brain updates its probabilistic model of the world from experience — and if entertainment systematically presents an exaggerated version of the world — then heavy consumers should develop systematically distorted beliefs. This is the mechanism behind Gerbner's cultivation theory, derived here from first principles rather than discovered inductively.
+      <p class="lead" style="max-width:860px;margin-bottom:6px;">
+        If priors come from experience, and entertainment exaggerates the world,
+        heavy viewers should hold systematically distorted beliefs.
       </p>
 
-      <div class="pred-table" style="max-width:820px;">
+      <div class="pred-table">
         <div class="pred-header">
           <span>MECHANISM</span>
-          <span>WHAT ENTERTAINMENT EXAGGERATES</span>
-          <span>PREDICTED CULTIVATION EFFECT</span>
+          <span>WHAT'S EXAGGERATED</span>
+          <span>PREDICTED EFFECT</span>
         </div>
 
         <div class="pred-row fragment fade-up">
           <div class="pred-mech">Skill acquisition</div>
-          <div class="pred-content">Training montages — rapid mastery, effortless expertise</div>
-          <div class="pred-effect">Underestimate real-world time and effort required for mastery <span class="pred-tag tag-novel">NOVEL</span></div>
+          <div class="pred-content">Training montages, instant mastery</div>
+          <div class="pred-effect">Underestimate time to mastery <span class="pred-tag tag-novel">NOVEL</span></div>
         </div>
         <div class="pred-row fragment fade-up">
           <div class="pred-mech">Fear of aggressors</div>
-          <div class="pred-content">Formidable villains, sophisticated criminals, pervasive violence</div>
-          <div class="pred-effect">Overestimate crime rates and danger — "mean world syndrome" <span class="pred-tag tag-rep">REPLICATION</span></div>
+          <div class="pred-content">Formidable villains, constant violence</div>
+          <div class="pred-effect">Overestimate crime and danger <span class="pred-tag tag-rep">REPLICATION</span></div>
         </div>
         <div class="pred-row fragment fade-up">
           <div class="pred-mech">Long-term love</div>
-          <div class="pred-content">Soulmate narratives, perfect relationship arcs, eternal devotion</div>
-          <div class="pred-effect">Unrealistic partner expectations; relationship dissatisfaction <span class="pred-tag tag-rep">REPLICATION</span></div>
+          <div class="pred-content">Soulmates, flawless arcs</div>
+          <div class="pred-effect">Unrealistic partner standards <span class="pred-tag tag-rep">REPLICATION</span></div>
         </div>
         <div class="pred-row fragment fade-up">
           <div class="pred-mech">Friendship</div>
-          <div class="pred-content">Always-available friends, idealized loyalty, perfect group dynamics</div>
-          <div class="pred-effect">Overestimate friendship loyalty; dissatisfied with real friendships <span class="pred-tag tag-novel">NOVEL</span></div>
+          <div class="pred-content">Always-available, perfectly loyal friends</div>
+          <div class="pred-effect">Dissatisfied with real friendships <span class="pred-tag tag-novel">NOVEL</span></div>
         </div>
         <div class="pred-row fragment fade-up">
           <div class="pred-mech">Warmth</div>
-          <div class="pred-content">Pronounced kindness, strangers helping strangers unprompted</div>
-          <div class="pred-effect">Overestimate stranger prosociality — a "rosy world" counterweight <span class="pred-tag tag-novel">NOVEL</span></div>
+          <div class="pred-content">Strangers helping strangers</div>
+          <div class="pred-effect">A "rosy world" counterweight <span class="pred-tag tag-novel">NOVEL</span></div>
         </div>
       </div>
 
-      <p style="font-family:var(--mono);font-size:0.56rem;color:var(--dim);letter-spacing:0.07em;margin-top:10px;">
+      <p class="source-note" style="margin-top:14px;">
         Table 1 · Lewis (under review, JMP) · 23 falsifiable predictions across 6 domains
       </p>
     </div>
-    <div class="slide-counter">12 / 15</div>
+    <div class="slide-counter">13 / 16</div>
   </div>
+  <aside class="notes">
+    If the brain updates its probabilistic model of the world from experience — and if
+    entertainment systematically presents an exaggerated version of the world — then heavy
+    consumers should develop systematically distorted beliefs. This is the mechanism behind
+    Gerbner's cultivation theory, derived here from first principles rather than discovered
+    inductively. Note the mix of replications and genuinely novel predictions, and especially the
+    "rosy world" effects in the warmth and cooperation domains — differential predictions that
+    classical cultivation theory cannot make.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 11 — THE SUSPENSE PARADOX
+     SLIDE 14 — THE SUSPENSE PARADOX
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap" style="padding:0;">
 
-    <div class="text-panel" style="flex:0 0 58%;padding:52px 52px 52px 64px;">
+    <div class="text-panel" style="flex:0 0 60%;padding:44px 44px 44px 56px;">
       <p class="slide-label">A 40-Year Puzzle</p>
-      <h2>If Novelty Drives<br>Attention — <span class="text-gold">Why Rewatch?</span></h2>
+      <h2>If Novelty Drives Attention —<br><span class="text-gold">Why Rewatch?</span></h2>
       <div class="gold-line"></div>
 
-      <div style="display:flex;align-items:center;gap:24px;margin-bottom:14px;">
-        <div>
-          <div class="big-stat">92<span style="font-size:0.45em;vertical-align:super;">%</span></div>
-          <div class="big-stat-label">of U.S. audiences rewatch content<br>they have already seen to completion</div>
-        </div>
+      <div style="display:flex;align-items:center;gap:26px;margin-bottom:10px;">
+        <div class="big-stat">92<span style="font-size:0.45em;vertical-align:super;">%</span></div>
+        <div class="big-stat-label">of U.S. audiences rewatch content<br>they've already finished</div>
       </div>
 
       <div class="insight-box fragment fade-up">
-        <p style="font-size:0.87rem;line-height:1.65;"><strong>Resolution — hierarchical Bayesian processing:</strong> The predictive mind operates at multiple levels simultaneously. Familiarity at high levels <em>enables</em> novelty at low levels.</p>
+        <p><strong>Hierarchical Bayesian processing:</strong> familiarity at high levels
+        <em>enables</em> novelty at low levels.</p>
       </div>
 
-      <div style="margin-top:12px;" class="fragment fade-up">
-        <div class="bayes-box bayes-high" style="margin-bottom:8px;">
-          <p class="bayes-label" style="color:var(--blue);">HIGH-LEVEL PREDICTIONS</p>
-          <p style="font-size:0.78rem;color:var(--muted);line-height:1.5;">Broad narrative structure — "hero prevails," "romance succeeds." Knowing the ending creates certainty here → reduces global uncertainty → produces positive affect.</p>
+      <div class="fragment fade-up">
+        <div class="bayes-box bayes-high">
+          <p class="bayes-label" style="color:#7FC4E0;">HIGH LEVEL</p>
+          <p class="bayes-body">"Hero prevails." Certainty here cuts global uncertainty — and feels good.</p>
         </div>
         <div class="bayes-box bayes-low">
-          <p class="bayes-label" style="color:var(--gold);">LOW-LEVEL PREDICTIONS</p>
-          <p style="font-size:0.78rem;color:var(--muted);line-height:1.5;">Moment-to-moment stimuli — specific scares, sound design, dialogue delivery, superstimuli activations. These generate new prediction errors every time.</p>
+          <p class="bayes-label" style="color:var(--gold);">LOW LEVEL</p>
+          <p class="bayes-body">Specific scares, sound, delivery — fresh prediction errors every time.</p>
         </div>
       </div>
 
-      <p style="font-size:0.80rem;color:var(--muted);line-height:1.6;margin-top:12px;" class="fragment fade-up">
-        Genre conventions are not laziness — they are a <strong>cognitive service</strong> to the audience. Reliable high-level structure minimizes cognitive load so low-level superstimuli can do their work.
+      <p class="lead fragment fade-up" style="margin:10px 0 0;font-size:1.1rem;">
+        Genre convention isn't laziness. It's a <strong style="color:var(--cream);">cognitive service</strong>.
       </p>
     </div>
 
-    <!-- Right: Godzilla poster -->
     <div style="flex:1;position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
                   background:#08060C;padding:20px;">
@@ -1452,53 +1581,82 @@ h2 {
              style="max-height:100%;max-width:100%;object-fit:contain;opacity:0.85;">
       </div>
       <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,8,14,0.6) 0%,transparent 40%);"></div>
-      <div style="position:absolute;bottom:16px;left:16px;">
-        <p style="font-family:var(--mono);font-size:0.54rem;color:rgba(245,240,232,0.3);letter-spacing:0.08em;">Gojira (Godzilla), 1954 · A threat-domain superstimulus that<br>generated sequels for 70 years — the suspense paradox in action</p>
+      <div style="position:absolute;bottom:16px;left:16px;right:16px;">
+        <p class="source-note" style="line-height:1.5;">Gojira, 1954 · a threat superstimulus<br>still generating sequels 70 years later</p>
       </div>
     </div>
 
-    <div class="slide-counter">13 / 15</div>
+    <div class="slide-counter">14 / 16</div>
   </div>
+  <aside class="notes">
+    92% of U.S. audiences rewatch content they have already seen, to completion — and enjoy it.
+    Resolution: hierarchical Bayesian processing. The predictive mind operates at multiple levels
+    simultaneously, and familiarity at high levels enables novelty at low levels. High-level
+    predictions cover broad narrative structure — "hero prevails," "romance succeeds." Knowing the
+    ending creates certainty there, which reduces global uncertainty and produces positive affect.
+    Low-level predictions cover moment-to-moment stimuli — specific scares, sound design, dialogue
+    delivery, superstimuli activations — and those generate new prediction errors every time. So
+    genre conventions are not laziness; they are a cognitive service to the audience. Reliable
+    high-level structure minimizes cognitive load so low-level superstimuli can do their work.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 12 — IMPLICATIONS
+     SLIDE 15 — IMPLICATIONS
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="slide">
   <div class="slide-wrap grad-animate">
-    <div class="slide-content full">
+    <div class="slide-content">
 
       <p class="slide-label">What This Means</p>
-      <h2>A Unified Framework —<br><span class="text-gold">For Research, Practice, and Craft</span></h2>
+      <h2>A Unified Framework —<br><span class="text-gold">For Research and Practice</span></h2>
       <div class="gold-line"></div>
 
-      <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:20px;margin-top:10px;">
-        <div>
-          <div class="impl-row fragment fade-up">
-            <div class="impl-icon">🔬</div>
-            <div>
-              <div class="impl-title">For Researchers</div>
-              <div class="impl-body">A principled taxonomy of entertainment phenomena organized by evolved mental architectures. Character research, cultivation research, and body image research are not independent silos — they are systematic explorations of different superstimuli domains. The framework generates 23 falsifiable predictions, including genuinely novel ones no prior theory could reach.</div>
-            </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:10px;">
+
+        <div class="impl-card blue-b fragment fade-up">
+          <div class="impl-icon">🔬</div>
+          <div class="impl-title">For Researchers</div>
+          <div class="impl-body">
+            A taxonomy organized by evolved mental architecture. Character, cultivation, and
+            body-image research stop being separate silos.
           </div>
-          <div class="impl-row fragment fade-up">
-            <div class="impl-icon">📊</div>
-            <div>
-              <div class="impl-title">For Practitioners</div>
-              <div class="impl-body">Once you have a validated taxonomy of what audiences actually respond to, you can constrain AI tools to operationalize it at scale. Theory tells you what to measure; psychometrics tells you how to measure it validly; AI scales the measurement. The ROI prediction problem becomes tractable — not trivial, but tractable.</div>
-            </div>
+          <div class="impl-body" style="color:var(--gold);">
+            23 falsifiable predictions — several no prior theory could reach.
           </div>
         </div>
-        <div></div>
+
+        <div class="impl-card gold-b fragment fade-up">
+          <div class="impl-icon">📊</div>
+          <div class="impl-title">For Practitioners</div>
+          <div class="impl-body">
+            Theory says what to measure. Psychometrics says how to measure it validly.
+            AI scales the measurement.
+          </div>
+          <div class="impl-body" style="color:var(--gold);">
+            The ROI problem becomes tractable — not trivial, but tractable.
+          </div>
+        </div>
+
       </div>
 
     </div>
-    <div class="slide-counter">14 / 15</div>
+    <div class="slide-counter">15 / 16</div>
   </div>
+  <aside class="notes">
+    For researchers: a principled taxonomy of entertainment phenomena organized by evolved mental
+    architectures. Character research, cultivation research, and body image research are not
+    independent silos — they are systematic explorations of different superstimuli domains. The
+    framework generates 23 falsifiable predictions, including genuinely novel ones no prior theory
+    could reach. For practitioners: once you have a validated taxonomy of what audiences actually
+    respond to, you can constrain AI tools to operationalize it at scale. Theory tells you what to
+    measure; psychometrics tells you how to measure it validly; AI scales the measurement. The ROI
+    prediction problem becomes tractable — not trivial, but tractable.
+  </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SLIDE 13 — CLOSE / THANK YOU
+     SLIDE 16 — CLOSE / THANK YOU
 ════════════════════════════════════════════════════════════ -->
 <section data-transition="fade">
   <div class="slide-wrap centered">
@@ -1506,8 +1664,8 @@ h2 {
     <div class="bg-overlay overlay-heavy"></div>
     <div class="bg-overlay overlay-vign"></div>
 
-    <div style="position:relative;z-index:2;text-align:center;padding:0 100px;">
-      <p class="slide-label" style="justify-content:center;margin-bottom:18px;">The Close</p>
+    <div style="position:relative;z-index:2;text-align:center;padding:0 90px;">
+      <p class="slide-label" style="justify-content:center;margin-bottom:20px;">The Close</p>
       <h2 class="closing-head">
         The framework doesn't tell you<br>
         what great content looks like.<br>
@@ -1515,17 +1673,17 @@ h2 {
       </h2>
       <div class="gold-line center"></div>
 
-      <div class="fragment fade-up" style="margin-top:36px;">
-        <p style="font-family:var(--serif);font-size:clamp(2.6rem,5.5vw,4.6rem);font-style:italic;color:var(--gold);line-height:1;margin:0 0 20px;letter-spacing:0.02em;">Thank you.</p>
-        <p style="font-family:var(--mono);font-size:0.70rem;color:var(--muted);letter-spacing:0.1em;">
+      <div class="fragment fade-up" style="margin-top:34px;">
+        <p style="font-family:var(--serif);font-size:3.6rem;font-style:italic;color:var(--gold);line-height:1;margin:0 0 22px;letter-spacing:0.02em;">Thank you.</p>
+        <p style="font-family:var(--mono);font-size:0.95rem;color:var(--muted);letter-spacing:0.08em;">
           Robert Lewis, Ph.D. · robert.lewis.msu@gmail.com · Precocity
         </p>
-        <p style="font-family:var(--mono);font-size:0.62rem;color:rgba(245,240,232,0.28);margin-top:7px;letter-spacing:0.08em;">
+        <p style="font-family:var(--mono);font-size:0.8rem;color:rgba(245,240,232,0.38);margin-top:10px;letter-spacing:0.06em;">
           "The Making of Media Entertainment" · under review, Journal of Media Psychology
         </p>
       </div>
     </div>
-    <div class="slide-counter">15 / 15</div>
+    <div class="slide-counter">16 / 16</div>
     <div class="conf-tag">Script to Screen · UT Austin</div>
   </div>
 </section>
@@ -1534,6 +1692,7 @@ h2 {
 </div><!-- /.reveal -->
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/notes/notes.js"></script>
 <script>
 Reveal.initialize({
   hash: true,
@@ -1551,11 +1710,18 @@ Reveal.initialize({
   fragments: true,
   fragmentInURL: false,
   keyboard: true,
-  width: '100%',
-  height: '100%',
+
+  // Fixed design space — Reveal transform-scales this to fill any
+  // screen, so a 1rem body size reads as 24px on a 1080p projector.
+  // Do NOT change back to '100%': that disables scaling and makes
+  // every size render at literal browser pixels (i.e. tiny).
+  width: 1280,
+  height: 720,
   margin: 0,
-  minScale: 0.5,
-  maxScale: 1.5,
+  minScale: 0.3,
+  maxScale: 3.0,
+
+  plugins: [ RevealNotes ],
 });
 </script>
 </body>
